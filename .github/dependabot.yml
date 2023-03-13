@@ -1,0 +1,28 @@
+version: 2
+updates:
+  # NuGet config for 'SmallsOnline.PasswordExpirationNotifier.Lib'
+  - package-ecosystem: "nuget"
+    directory: "/src/Lib"
+    target-branch: "main"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "Smalls1652"
+  
+  # NuGet config for 'SmallsOnline.PasswordExpirationNotifier.FunctionApp'
+  - package-ecosystem: "nuget"
+    directory: "/src/FunctionApp"
+    target-branch: "main"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "Smalls1652"
+  
+  # GitHub Actions config for the repo
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "main"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "Smalls1652"
