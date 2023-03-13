@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+name: Build project
+on:
+  - push
+  - pull_request
+  - workflow_dispatch
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        project: [
+          "FunctionApp",
+          "Lib"
+        ]
+    env:
+      DOTNET_NOLOGO: true
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup dotnet SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: global.json
+
+      - name: Build project
+        shell: pwsh
+        run: dotnet restore "./src/${{ matrix.project }}/" ; dotnet build "./src/${{ matrix.project }}/"
