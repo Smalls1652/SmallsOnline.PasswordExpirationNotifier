@@ -1,0 +1,70 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages
+@inherits ComponentBase
+
+@page "/test/send-email"
+
+<div class="row">
+    <h1>
+        Manually Send Email
+    </h1>
+    @if (_isLoaded)
+    {
+        <AuthorizeView>
+            <Authorized Context="Auth">
+                <div class="row">
+                    <EditForm Model="@_manualSendEmailItem" OnSubmit="@HandleFormSubmitAsync">
+                        <div class="row">
+                            <div class="col">
+                                <label class="fw-bold form-label">
+                                    User principal name:
+                                </label>
+                                <InputText @bind-Value="_manualSendEmailItem.UserPrincipalName" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row pt-2">
+                            <div class="col">
+                                <label class="form-label fw-bold">
+                                    Search config:
+                                </label>
+                                @if (_userSearchConfigs is not null)
+                                {
+                                    <InputSelect @bind-Value="_manualSendEmailItem.UserSearchConfigId" class="form-select">
+                                        <option selected value="notSet">
+                                            Select an item...
+                                        </option>
+                                        @foreach(var searchConfig in _userSearchConfigs)
+                                        {
+                                            <option value="@searchConfig.Id">
+                                                @searchConfig.ConfigName
+                                            </option>
+                                        }
+                                    </InputSelect>
+                                }
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end pt-2">
+                            <button class="btn btn-primary" type="submit">
+                                Submit
+                            </button>
+                        </div>
+                    </EditForm>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="col-12">
+                    <p>
+                        You are not authorized to access this page. 😬
+                    </p>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+    }
+    else
+    {
+        <div class="col-12">
+            <p>
+                Loading...
+            </p>
+        </div>
+    }
+</div>
