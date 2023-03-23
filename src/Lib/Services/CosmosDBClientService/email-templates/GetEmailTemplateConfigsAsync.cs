@@ -6,11 +6,11 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 public partial class CosmosDbClientService
 {
     /// <summary>
-    /// Get all user search configs from Cosmos DB.
+    /// Get all email template configs from Cosmos DB.
     /// </summary>
-    /// <returns>A collection of <see cref="UserSearchConfig"/> items stored in the database.</returns>
+    /// <returns>A collection of <see cref="EmailTemplateConfig"/> items stored in the database.</returns>
     /// <exception cref="NullReferenceException">No configs were found in the database.</exception>
-    public async Task<UserSearchConfig[]> GetUserSearchConfigsAsync()
+    public async Task<EmailTemplateConfig[]?> GetEmailTemplateConfigsAsync()
     {
         // Get the Cosmos DB container.
         Container container = _cosmosClient.GetContainer(
@@ -19,7 +19,7 @@ public partial class CosmosDbClientService
         );
 
         // Define the query to get the total number of configs.
-        QueryDefinition countQuery = new("SELECT VALUE COUNT(1) FROM c WHERE c.partitionKey = 'user-search-config'");
+        QueryDefinition countQuery = new("SELECT VALUE COUNT(1) FROM c WHERE c.partitionKey = 'email-template-config'");
 
         // Get the total number of configs.
         int totalConfigCount = 0;
@@ -36,11 +36,11 @@ public partial class CosmosDbClientService
         // If no configs were found, throw an exception.
         if (totalConfigCount == 0)
         {
-            throw new NullReferenceException("No user search configs found.");
+            return null;
         }
 
         // Create an array to hold the configs.
-        UserSearchConfig[] configs = new UserSearchConfig[totalConfigCount];
+        EmailTemplateConfig[] emailTemplateConfigs = new EmailTemplateConfig[totalConfigCount];
 
         // Define the query to get the IDs of all configs.
         QueryDefinition configIdsQuery = new("SELECT VALUE c.id FROM c WHERE c.partitionKey = 'email-template-config'");
@@ -56,10 +56,11 @@ public partial class CosmosDbClientService
             int i = 0;
             foreach (var item in await configsIterator.ReadNextAsync())
             {
-                configs[i] = await GetUserSearchConfigAsync(item);
+                emailTemplateConfigs[i] = await GetEmailTemplateConfigAsync(item);
                 i++;
             }
         }
-        return configs;
+
+        return emailTemplateConfigs;
     }
 }

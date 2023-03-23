@@ -6,11 +6,11 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 public partial class CosmosDbClientService
 {
     /// <summary>
-    /// Get all email template configs from Cosmos DB.
+    /// Get all user search configs from Cosmos DB.
     /// </summary>
-    /// <returns>A collection of <see cref="EmailTemplateConfig"/> items stored in the database.</returns>
+    /// <returns>A collection of <see cref="UserSearchConfig"/> items stored in the database.</returns>
     /// <exception cref="NullReferenceException">No configs were found in the database.</exception>
-    public async Task<EmailTemplateConfig[]> GetEmailTemplateConfigsAsync()
+    public async Task<UserSearchConfig[]> GetUserSearchConfigsAsync()
     {
         // Get the Cosmos DB container.
         Container container = _cosmosClient.GetContainer(
@@ -19,7 +19,7 @@ public partial class CosmosDbClientService
         );
 
         // Define the query to get the total number of configs.
-        QueryDefinition countQuery = new("SELECT VALUE COUNT(1) FROM c WHERE c.partitionKey = 'email-template-config'");
+        QueryDefinition countQuery = new("SELECT VALUE COUNT(1) FROM c WHERE c.partitionKey = 'user-search-config'");
 
         // Get the total number of configs.
         int totalConfigCount = 0;
@@ -40,10 +40,10 @@ public partial class CosmosDbClientService
         }
 
         // Create an array to hold the configs.
-        EmailTemplateConfig[] emailTemplateConfigs = new EmailTemplateConfig[totalConfigCount];
+        UserSearchConfig[] configs = new UserSearchConfig[totalConfigCount];
 
         // Define the query to get the IDs of all configs.
-        QueryDefinition configIdsQuery = new("SELECT VALUE c.id FROM c WHERE c.partitionKey = 'email-template-config'");
+        QueryDefinition configIdsQuery = new("SELECT VALUE c.id FROM c WHERE c.partitionKey = 'user-search-config'");
 
         // Get the IDs of all configs and get each config.
         // Note: We're using a FeedIterator<string> here because we're only getting the IDs of the configs,
@@ -56,11 +56,10 @@ public partial class CosmosDbClientService
             int i = 0;
             foreach (var item in await configsIterator.ReadNextAsync())
             {
-                emailTemplateConfigs[i] = await GetEmailTemplateConfigAsync(item);
+                configs[i] = await GetUserSearchConfigAsync(item);
                 i++;
             }
         }
-
-        return emailTemplateConfigs;
+        return configs;
     }
 }
