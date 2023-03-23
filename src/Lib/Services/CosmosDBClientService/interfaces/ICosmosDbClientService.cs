@@ -14,4 +14,5 @@ public interface ICosmosDbClientService
     Task RemoveEmailTemplateConfigAsync(string id);
     Task RemoveEmailAttachmentItemAsync(string id);
     Task CreateOrUpdateUserSearchConfigAsync(UserSearchConfig userSearchConfig);
+    Task RemoveUserSearchConfigAsync(string id);
 }
