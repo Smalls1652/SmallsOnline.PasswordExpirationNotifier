@@ -30,7 +30,7 @@ var host = new HostBuilder()
                 )
             );
 
-            services.AddSingleton<IConfigService, ConfigService>();
+            services.AddTransient<IConfigService, ConfigService>();
         })
     .Build();
 
