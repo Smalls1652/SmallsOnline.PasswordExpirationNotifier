@@ -37,10 +37,10 @@ public partial class UserSearchConfigs : ComponentBase
         _loading = false;
     }
 
-    private async Task HandleRemoveEmailTemplateAsync(string id)
+    private async Task HandleRemoveUserSearchConfigAsync(string id)
     {
-        _logger.LogWarning("Not implemented yet.");
-        //await _cosmosDbClientService.RemoveEmailTemplateConfigAsync(id);
-        //_userSearchConfigs = Array.FindAll(_userSearchConfigs!, item => item.Id != id);
+        _logger.LogWarning("Removing user search config with id: {id}", id);
+        await _cosmosDbClientService.RemoveUserSearchConfigAsync(id);
+        _userSearchConfigs = Array.FindAll(_userSearchConfigs!, item => item.Id != id);
     }
 }
