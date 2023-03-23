@@ -14,7 +14,7 @@ public partial class NewUserSearchConfig : ComponentBase
     /// Logger for the page.
     /// </summary>
     [Inject]
-    protected ILogger<EmailTemplates> _logger { get; set; } = null!;
+    protected ILogger<NewUserSearchConfig> _logger { get; set; } = null!;
 
     /// <summary>
     /// Authentication state provider.
