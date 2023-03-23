@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 
 namespace SmallsOnline.PasswordExpirationNotifier.FunctionApp.Models;
 
@@ -47,7 +48,7 @@ public class UserSearchQueueItem : IUserSearchQueueItem
     /// The days to send emails on when <see cref="IsEmailIntervalsEnabled"/> is true.
     /// </summary>
     [JsonPropertyName("emailIntervalDays")]
-    public int[]? EmailIntervalDays { get; set; }
+    public List<EmailIntervalDay>? EmailIntervalDays { get; set; }
 
     /// <summary>
     /// The ID of the email template to use.
