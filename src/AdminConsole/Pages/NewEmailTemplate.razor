@@ -1,0 +1,40 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages
+@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.EmailTemplates
+
+@page "/email-templates/new"
+
+<div class="row">
+    <h1>Email Templates</h1>
+    <div class="row pb-2">
+        <div class="col">
+            <a href="/email-templates">
+                Go back
+            </a>
+        </div>
+    </div>
+    <AuthorizeView>
+        <Authorized Context="Auth">
+            <div class="row">
+                @if (_emailTemplateConfig is not null)
+                {
+                    <EmailTemplateForm EmailTemplateConfig="_emailTemplateConfig" />
+                }
+                else
+                {
+                    <div class="col-12">
+                        <p>
+                            Loading...
+                        </p>
+                    </div>
+                }
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="col-12">
+                <p>
+                    You are not authorized to access this page. 😬
+                </p>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>

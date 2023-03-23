@@ -1,0 +1,117 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages
+@page "/user-search-configs"
+
+<div class="row">
+    <div class="d-flex">
+        <div>
+            <h1>
+                User Search Configs
+            </h1>
+        </div>
+        <div class="ms-3 flex-shrink-1">
+            <a class="btn btn-success" href="/user-search-configs/new" role="button">
+                New
+            </a>
+        </div>
+    </div>
+    <AuthorizeView>
+        <Authorized>
+            <div class="row">
+                @if (_loading == false)
+                {
+                    @if (_userSearchConfigs is not null)
+                    {
+                        @foreach (var configItem in _userSearchConfigs)
+                        {
+                            <div class="col-12 col-lg-6 p-2">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="mb-0">
+                                            @configItem.ConfigName
+                                        </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <label class="fw-bold">
+                                            Enabled:
+                                        </label>
+                                        <p>
+                                            @(configItem.ConfigEnabled ? "Yes" : "No")
+                                        </p>
+                                        <label class="fw-bold">
+                                            Description:
+                                        </label>
+                                        <p>
+                                            @(configItem.ConfigDescription is not null ? configItem.ConfigDescription : "No description provided.")
+                                        </p>
+                                        <label class="fw-bold">
+                                            Domain name:
+                                        </label>
+                                        <p class="font-monospace">
+                                            @configItem.DomainName
+                                        </p>
+                                        <label class="fw-bold">
+                                            OU path:
+                                        </label>
+                                        <p class="font-monospace">
+                                            @(configItem.OUPath is not null ? configItem.OUPath : "Not set")
+                                        </p>
+                                        <label class="fw-bold">
+                                            Last modified:
+                                        </label>
+                                        <p class="font-monospace">
+                                            @if (configItem.ConfigLastModified is not null)
+                                            {
+                                                <span>
+                                                    @configItem.ConfigLastModified.Value.ToString("yyyy-MM-dd hh:mm:ss tt zzz")
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span>
+                                                    NaN
+                                                </span>
+                                            }
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-end">
+                                            <a class="btn btn-primary" href="/user-search-configs/edit/@configItem.Id" type="button">
+                                                Edit
+                                            </a>
+                                            <button class="btn btn-danger ms-2" @onclick="async () => await HandleRemoveEmailTemplateAsync(configItem.Id)" type="button">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <p>
+                                No email templates found. 😬
+                            </p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <p>
+                            Loading...
+                        </p>
+                    </div>
+                }
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="col-12">
+                <p>
+                    You are not authorized to access this page. 😬
+                </p>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
