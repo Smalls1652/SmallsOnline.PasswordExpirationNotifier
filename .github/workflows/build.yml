@@ -17,7 +17,8 @@ jobs:
       matrix:
         project: [
           "FunctionApp",
-          "Lib"
+          "Lib",
+          "AdminConsole"
         ]
     env:
       DOTNET_NOLOGO: true
