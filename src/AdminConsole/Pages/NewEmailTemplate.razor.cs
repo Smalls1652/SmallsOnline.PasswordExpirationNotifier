@@ -15,7 +15,7 @@ public partial class NewEmailTemplate : ComponentBase
     /// Logger for the page.
     /// </summary>
     [Inject]
-    protected ILogger<EmailTemplates> _logger { get; set; } = null!;
+    protected ILogger<NewEmailTemplate> _logger { get; set; } = null!;
 
     /// <summary>
     /// The authentication state provider.

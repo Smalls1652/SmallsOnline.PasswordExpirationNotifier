@@ -21,7 +21,7 @@ public partial class EditEmailTemplate : ComponentBase
     /// Logger for the page.
     /// </summary>
     [Inject]
-    protected ILogger<EmailTemplates> _logger { get; set; } = null!;
+    protected ILogger<EditEmailTemplate> _logger { get; set; } = null!;
 
     /// <summary>
     /// The authentication state provider.
