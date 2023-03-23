@@ -34,6 +34,22 @@ builder.Services
         )
     );
 
+builder.Services
+    .AddSingleton<IGraphClientService, GraphClientService>(
+        provider => new(
+            clientId: builder.Configuration.GetSection("backendClientID").Value!,
+            clientSecret: builder.Configuration.GetSection("backendClientSecret").Value!,
+            tenantId: builder.Configuration.GetSection("backendTenantId").Value!
+        )
+    );
+
+builder.Services
+    .AddSingleton<IQueueClientService, QueueClientService>(
+        provider => new(
+            connectionString: builder.Configuration.GetSection("storageConnectionString").Value!
+        )
+    );
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
