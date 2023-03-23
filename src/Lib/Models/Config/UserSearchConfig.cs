@@ -25,12 +25,21 @@ public class UserSearchConfig : IUserSearchConfig
     [JsonPropertyName("configName")]
     public string? ConfigName { get; set; }
 
+    /// <summary>
+    /// Whether the config is enabled or not.
+    /// </summary>
     [JsonPropertyName("configEnabled")]
     public bool ConfigEnabled { get; set; }
 
+    /// <summary>
+    /// The description of the config.
+    /// </summary>
     [JsonPropertyName("configDescription")]
     public string? ConfigDescription { get; set; }
 
+    /// <summary>
+    /// The last time the config was modified.
+    /// </summary>
     [JsonPropertyName("configLastModified")]
     public DateTimeOffset? ConfigLastModified { get; set; }
 

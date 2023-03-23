@@ -37,6 +37,9 @@ public class EmailTemplateAttachmentItem : IEmailTemplateAttachmentItem
     [JsonPropertyName("isInline")]
     public bool IsInline { get; set; }
 
+    /// <summary>
+    /// Whether the attachment has been uploaded to the DB.
+    /// </summary>
     [JsonIgnore]
     public bool IsUploaded { get; set; } = true;
 }
