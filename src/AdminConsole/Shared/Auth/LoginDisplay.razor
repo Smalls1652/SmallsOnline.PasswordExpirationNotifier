@@ -1,0 +1,11 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Auth
+
+<AuthorizeView>
+    <Authorized>
+        Welcome, @context.User.Identity?.Name
+        <a href="MicrosoftIdentity/Account/SignOut">Sign out</a>
+    </Authorized>
+    <NotAuthorized>
+        <a href="MicrosoftIdentity/Account/SignIn">Sign in</a>
+    </NotAuthorized>
+</AuthorizeView>

@@ -1,0 +1,86 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <RootNamespace>SmallsOnline.PasswordExpirationNotifier.AdminConsole</RootNamespace>
+        <AssemblyName>SmallsOnline.PasswordExpirationNotifier.AdminConsole</AssemblyName>
+        <PackageId>SmallsOnline.PasswordExpirationNotifier.AdminConsole</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.3" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.32.2" />
+      <PackageReference Include="Microsoft.Identity.Web" Version="2.5.0" />
+      <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.5.0" />
+      <PackageReference Include="SmallsOnline.MsGraphClient" Version="2022.8.0-beta04" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="node_modules\**">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Include="installWebDependencies.ps1">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Include="package.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Include="package-lock.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Condition="'$(Configuration)'=='Release'" Include="wwwroot\appsettings.Development.json">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </None>
+        <None Remove="node_modules\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Lib\Lib.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services" />
+    </ItemGroup>
+
+    <Target Name="InitProject_Combined">
+        <Message Importance="high" Text="-------------------------------------------------" />
+        <Message Importance="high" Text="Running initialization for Blazor WASM app" />
+        <Message Importance="high" Text="-------------------------------------------------" />
+        <CallTarget Targets="Clean;Restore;InitWebDependencies" />
+    </Target>
+
+    <Target Name="BuildProject_Combined">
+        <Message Importance="high" Text="---------------------------------------" />
+        <Message Importance="high" Text="Running build for Blazor WASM app" />
+        <Message Importance="high" Text="---------------------------------------" />
+        <CallTarget Targets="Clean;Restore;InitWebDependencies;Build" />
+    </Target>
+
+    <Target Name="InitWebDependencies">
+        <CallTarget Targets="InitNPM;InstallWebDependencies" />
+    </Target>
+
+    <Target Name="InitNPM">
+        <Message Importance="high" Text="- Running 'npm install'" />
+        <Exec Command="npm install" />
+    </Target>
+
+    <Target Name="UpdateBootstrap">
+        <Message Importance="high" Text="- Running 'npm update'" />
+        <Exec Command="npm update bootstrap" />
+    </Target>
+
+    <Target Name="InstallWebDependencies">
+        <Message Importance="high" Text="- Installing CSS/JS dependencies to project" />
+        <Exec Command="pwsh -NoProfile -File installWebDependencies.ps1" />
+    </Target>
+
+</Project>

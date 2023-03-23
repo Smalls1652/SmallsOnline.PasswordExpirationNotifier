@@ -24,25 +24,35 @@ public class EmailTemplateConfig : IEmailTemplateConfig
     /// A name for the template.
     /// </summary>
     [JsonPropertyName("templateName")]
-    public string TemplateName { get; set; } = null!;
+    public string? TemplateName { get; set; }
 
+    [JsonPropertyName("templateDescription")]
+    public string? TemplateDescription { get; set; }
+
+    [JsonPropertyName("templateLastModified")]
+    public DateTimeOffset? TemplateLastModified { get; set; }
+    
     /// <summary>
     /// The user to send the email template as.
     /// </summary>
     [JsonPropertyName("templateSendAsUser")]
-    public string TemplateSendAsUser { get; set; } = null!;
+    public string? TemplateSendAsUser { get; set; }
 
     /// <summary>
     /// The template HTML decoded from <see cref="TemplateHtmlBase64"/>.
     /// </summary>
     [JsonIgnore]
-    public string TemplateHtml => Encoding.UTF8.GetString(Convert.FromBase64String(TemplateHtmlBase64));
+    public string? TemplateHtml
+    {
+        get => TemplateHtmlBase64 is not null ? Encoding.UTF8.GetString(Convert.FromBase64String(TemplateHtmlBase64)) : null;
+        set => TemplateHtmlBase64 = value is not null ? Convert.ToBase64String(Encoding.UTF8.GetBytes(value)) : null;
+    }
 
     /// <summary>
     /// The base64 encoded template HTML.
     /// </summary>
     [JsonPropertyName("templateHtmlBase64")]
-    public string TemplateHtmlBase64 { get; set; } = null!;
+    public string? TemplateHtmlBase64 { get; set; }
 
     /// <summary>
     /// Attachments to include with the email.

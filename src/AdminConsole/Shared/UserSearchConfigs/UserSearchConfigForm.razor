@@ -1,0 +1,134 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.UserSearchConfigs
+
+@inherits ComponentBase
+
+<div class="row">
+    <div class="col-12">
+        <EditForm Model="@UserSearchConfig" OnSubmit="@HandleFormSubmitAsync">
+            <div class="row">
+                <div class="col">
+                    <label class="fw-bold form-label">
+                        ID:
+                    </label>
+                    <InputText @bind-Value="UserSearchConfig.Id" class="form-control" disabled readonly />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        Config name:
+                    </label>
+                    <InputText @bind-Value="UserSearchConfig.ConfigName" class="form-control" />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        Enabled:
+                    </label>
+                    <InputCheckbox @bind-Value="UserSearchConfig.ConfigEnabled" class="form-check-input" />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        Description:
+                    </label>
+                    <InputText @bind-Value="UserSearchConfig.ConfigDescription" class="form-control" />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        Domain name:
+                    </label>
+                    <InputText @bind-Value="UserSearchConfig.DomainName" class="form-control" />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        OU path:
+                    </label>
+                    <InputText @bind-Value="UserSearchConfig.OUPath" class="form-control" />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        Max password age:
+                    </label>
+                    <InputNumber @bind-Value="UserSearchConfig.MaxPasswordAge" class="form-control" />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        Email intervals enabled:
+                    </label>
+                    <InputCheckbox @bind-Value="UserSearchConfig.IsEmailIntervalsEnabled" class="form-check-input" />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <div class="d-flex">
+                        <div>
+                            <label class="form-label fw-bold">
+                                Email interval days:
+                            </label>
+                        </div>
+                        <div class="ms-3 flex-shrink-1">
+                            <button class="btn btn-success" onclick="@HandleAddEmailIntervalDay" type="button">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    @if (UserSearchConfig.EmailIntervalDays is not null)
+                    {
+                        @foreach (var interval in UserSearchConfig.EmailIntervalDays)
+                        {
+                            <div class="row pt-2">
+                                <div class="col-11">
+                                    <InputNumber @bind-Value="@interval.Value" class="form-control" />
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-danger" @onclick="() => HandleRemoveEmailIntervalDay(interval)" type="button">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        Email template:
+                    </label>
+                    @if (_emailTemplateConfigs is not null)
+                    {
+                        <InputSelect @bind-Value="UserSearchConfig.EmailTemplateId" class="form-select">
+                            @foreach (var emailTemplateConfig in _emailTemplateConfigs)
+                            {
+                                @if (UserSearchConfig.EmailTemplateId == emailTemplateConfig.Id)
+                                {
+                                    <option selected value="@emailTemplateConfig.Id">@emailTemplateConfig.TemplateName</option>
+                                }
+                                else
+                                {
+                                    <option value="@emailTemplateConfig.Id">@emailTemplateConfig.TemplateName</option>
+                                }
+                            }
+                        </InputSelect>
+                    }
+                </div>
+            </div>
+            <div class="d-flex justify-content-end pt-2">
+                <button class="btn btn-primary" type="submit">
+                    Submit
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>

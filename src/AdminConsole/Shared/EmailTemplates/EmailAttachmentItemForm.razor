@@ -1,0 +1,52 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.EmailTemplates
+
+@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Common
+
+@inherits ComponentBase
+
+
+<div class="row">
+    <div class="col">
+        <label class="form-label fw-bold">
+            File name:
+        </label>
+        <InputText @bind-Value="AttachmentItem.FileName" class="form-control font-monospace" />
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col">
+        <label class="form-label fw-bold">
+            Is inline:
+        </label>
+        <InputCheckbox @bind-Value="AttachmentItem.IsInline" class="form-check-input" />
+    </div>
+</div>
+<div class="row mt-2">
+    <div class="col">
+        <label class="form-label fw-bold">
+            Image:
+        </label>
+        <InputFile class="form-control" OnChange="@HandleAttachmentChangeAsync" @ref="_inputFile" accept=".jpg,.jpeg,.png"  />
+        <div class="mt-2">
+            <hr />
+            @if (AttachmentItem.FileContents is not null)
+            {
+                <a data-bs-target="#offcanvas-@AttachmentItem.Id" data-bs-toggle="offcanvas" type="button">
+                    <img alt="@AttachmentItem.FileName" class="img-fluid" @ref="_imgElement" />
+                </a>
+            }
+            else
+            {
+                <p>
+                    No image 🤷‍♂️
+                </p>
+            }
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-end pt-2">
+    @ChildContent
+</div>
+
+
+<FullscreenImage AttachmentItem="AttachmentItem" />

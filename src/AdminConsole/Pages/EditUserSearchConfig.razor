@@ -1,0 +1,42 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages
+@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.UserSearchConfigs
+
+@page "/user-search-configs/edit/{id}"
+
+<div class="row">
+    <h1>
+        User Search Configs
+    </h1>
+    <div class="row pb-2">
+        <div class="col">
+            <a href="/user-search-configs">
+                Go back
+            </a>
+        </div>
+    </div>
+    <AuthorizeView>
+        <Authorized Context="Auth">
+            <div class="row">
+                @if (_userSearchConfig is not null)
+                {
+                    <UserSearchConfigForm UserSearchConfig="_userSearchConfig" />
+                }
+                else
+                {
+                    <div class="col-12">
+                        <p>
+                            Loading...
+                        </p>
+                    </div>
+                }
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="col-12">
+                <p>
+                    You are not authorized to access this page. 😬
+                </p>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
