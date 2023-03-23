@@ -26,9 +26,15 @@ public class EmailTemplateConfig : IEmailTemplateConfig
     [JsonPropertyName("templateName")]
     public string? TemplateName { get; set; }
 
+    /// <summary>
+    /// A description for the template.
+    /// </summary>
     [JsonPropertyName("templateDescription")]
     public string? TemplateDescription { get; set; }
 
+    /// <summary>
+    /// The last time the template was modified.
+    /// </summary>
     [JsonPropertyName("templateLastModified")]
     public DateTimeOffset? TemplateLastModified { get; set; }
     
