@@ -24,7 +24,12 @@ var host = new HostBuilder()
                 )
             );
 
-            services.AddSingleton<IQueueClientService, QueueClientService>();
+            services.AddSingleton<IQueueClientService, QueueClientService>(
+                provider => new(
+                    connectionString: AppSettingsHelper.GetSettingValue("storageConnectionString")
+                )
+            );
+
             services.AddSingleton<IConfigService, ConfigService>();
         })
     .Build();
