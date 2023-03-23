@@ -34,7 +34,7 @@ public class QueueUpUserSearch
         logger.LogInformation("C# HTTP trigger function processed a request.");
 
         // Get the user search configs from the config service.
-        UserSearchConfig[] searchConfigs = _configService.UserSearchConfigs;
+        UserSearchConfig[] searchConfigs = Array.FindAll(_configService.UserSearchConfigs, item => item.ConfigEnabled);
 
         // Loop through each user search config and
         // create a queue message for each letter of the alphabet.
@@ -52,13 +52,13 @@ public class QueueUpUserSearch
                         value: new UserSearchQueueItem()
                         {
                             UserSearchConfigId = configItem.Id,
-                            DomainName = configItem.DomainName,
+                            DomainName = configItem.DomainName!,
                             LastNameStartsWith = lastNameStartsWithChar,
                             OUPath = configItem.OUPath,
                             MaxPasswordAge = configItem.MaxPasswordAge,
                             IsEmailIntervalsEnabled = configItem.IsEmailIntervalsEnabled,
                             EmailIntervalDays = configItem.EmailIntervalDays,
-                            EmailTemplateId = configItem.EmailTemplateId
+                            EmailTemplateId = configItem.EmailTemplateId!
                         },
                         jsonTypeInfo: _jsonSourceGenerationContext.UserSearchQueueItem
                     )
