@@ -29,11 +29,14 @@ public class EmailTemplateAttachmentItem : IEmailTemplateAttachmentItem
     /// A base64 encoded string of the file content.
     /// </summary>
     [JsonPropertyName("fileContents")]
-    public string FileContents { get; set; } = null!;
+    public string? FileContents { get; set; }
 
     /// <summary>
     /// Whether the attachment should be displayed inline with the email body.
     /// </summary>
     [JsonPropertyName("isInline")]
     public bool IsInline { get; set; }
+
+    [JsonIgnore]
+    public bool IsUploaded { get; set; } = true;
 }
