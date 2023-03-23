@@ -47,8 +47,14 @@ public class SendEmail
         logger.LogInformation("Resolved search config to '{ConfigName} [{ConfigId}]'.", userSearchConfigItem.ConfigName, userSearchConfigItem.Id);
         logger.LogInformation("Sending email with template '{EmailTemplateName} [{EmailTemplateId}]' to '{UserPrincipalName}'.", emailTemplateConfigItem.TemplateName, emailTemplateConfigItem.Id, queueItem.User.UserPrincipalName);
 
+        if (userSearchConfigItem.IsEmailIntervalsEnabled == true && userSearchConfigItem.EmailIntervalDays!.Find(interval => interval.Value == (int)Math.Round(queueItem.PasswordExpiresIn.TotalDays, 0)) is null)
+        {
+            logger.LogInformation("{UserPrincipalName} is not expected to receive an email yet. Skipping...", queueItem.User.UserPrincipalName);
+            return;
+        }
+
         // Create the body of the email with the template and the queue item data.
-        string emailBody = emailTemplateConfigItem.TemplateHtml
+        string emailBody = emailTemplateConfigItem.TemplateHtml!
             .Replace("{{USERNAME}}", queueItem.User.DisplayName)
             .Replace("{{EXPIREINDAYS}}", Math.Round(queueItem.PasswordExpiresIn.TotalDays, 0).ToString("00"))
             .Replace("{{EXPIREDATE}}", queueItem.PasswordExpirationDate.ToString("MMMM dd, yyyy hh:mm tt zzz"));
@@ -62,7 +68,7 @@ public class SendEmail
             {
                 fileAttachments[i] = new(
                     fileName: emailTemplateConfigItem.IncludedAttachments[i].FileName,
-                    fileContentBytesBase64: emailTemplateConfigItem.IncludedAttachments[i].FileContents,
+                    fileContentBytesBase64: emailTemplateConfigItem.IncludedAttachments[i].FileContents!,
                     isInline: emailTemplateConfigItem.IncludedAttachments[i].IsInline
                 );
             }
@@ -78,15 +84,15 @@ public class SendEmail
                     new(queueItem.User.UserPrincipalName, null)
                 },
                 attachments: fileAttachments
-            ),
-            //{
-            //    CcRecipient = new Recipient[]{}
-            //},
+            )
+            {
+                CcRecipient = new Recipient[] { }
+            },
             saveToSentItems: false
         );
 
         // Send the email.
         logger.LogInformation("Sending email as '{SendAsUser}'.", emailTemplateConfigItem.TemplateSendAsUser);
-        await _graphClientService.SendEmailAsync(emailMessage, emailTemplateConfigItem.TemplateSendAsUser);
+        await _graphClientService.SendEmailAsync(emailMessage, emailTemplateConfigItem.TemplateSendAsUser!);
     }
 }
