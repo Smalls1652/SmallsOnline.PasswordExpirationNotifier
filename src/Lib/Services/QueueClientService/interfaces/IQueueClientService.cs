@@ -1,6 +1,6 @@
 ﻿using Azure.Storage.Queues;
 
-namespace SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
+namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public interface IQueueClientService
 {

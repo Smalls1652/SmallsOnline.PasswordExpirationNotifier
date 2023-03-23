@@ -1,17 +1,17 @@
 ﻿using Azure.Storage.Queues;
 
-namespace SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
+namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 /// <summary>
 /// Service for interacting with Azure Storage queues.
 /// </summary>
 public class QueueClientService : IQueueClientService
 {
-    public QueueClientService()
+    public QueueClientService(string connectionString)
     {
         // Create the queue client for the user search queue.
         UserSearchQueueClient = new(
-            connectionString: AppSettingsHelper.GetSettingValue("storageConnectionString"),
+            connectionString: connectionString,
             queueName: "user-search-queue",
             options: new()
             {
@@ -22,7 +22,7 @@ public class QueueClientService : IQueueClientService
 
         // Create the queue client for the email queue.
         EmailQueueClient = new(
-            connectionString: AppSettingsHelper.GetSettingValue("storageConnectionString"),
+            connectionString: connectionString,
             queueName: "email-queue",
             options: new()
             {
