@@ -64,6 +64,22 @@
             <div class="row pt-2">
                 <div class="col">
                     <label class="form-label fw-bold">
+                        Ignore password age:
+                    </label>
+                    <InputCheckbox @bind-Value="UserSearchConfig.IgnorePasswordAge" class="form-check-input" />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        Do not send emails:
+                    </label>
+                    <InputCheckbox @bind-Value="UserSearchConfig.DoNotSendEmails" class="form-check-input" />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
                         Email intervals enabled:
                     </label>
                     <InputCheckbox @bind-Value="UserSearchConfig.IsEmailIntervalsEnabled" class="form-check-input" />
