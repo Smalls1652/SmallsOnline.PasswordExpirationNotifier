@@ -93,6 +93,14 @@ public class SendEmail
 
         // Send the email.
         logger.LogInformation("Sending email as '{SendAsUser}'.", emailTemplateConfigItem.TemplateSendAsUser);
-        await _graphClientService.SendEmailAsync(emailMessage, emailTemplateConfigItem.TemplateSendAsUser!);
+
+        if (!userSearchConfigItem.DoNotSendEmails)
+        {
+            await _graphClientService.SendEmailAsync(emailMessage, emailTemplateConfigItem.TemplateSendAsUser!);
+        }
+        else
+        {
+            logger.LogWarning("Email sending is disabled for this search config. Skipping...");
+        }
     }
 }
