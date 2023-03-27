@@ -1,36 +1,8 @@
-﻿@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Auth
+﻿@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Navbar
 @inherits LayoutComponentBase
 
 <header>
-    <div class="container-fluid">
-        <div class="d-flex justify-content-end">
-            <div class="flex-shrink-1">
-                <LoginDisplay />
-            </div>
-        </div>
-        <div class="d-flex">
-            <div class="flex-shrink-1 p-2">
-                <NavLink href="/">
-                    Index
-                </NavLink>
-            </div>
-            <div class="p-2 flex-shrink-1">
-                <NavLink href="/email-templates">
-                    Email templates
-                </NavLink>
-            </div>
-            <div class="p-2 flex-shrink-1">
-                <NavLink href="/user-search-configs">
-                    User Search Configs
-                </NavLink>
-            </div>
-            <div class="p-2 flex-shrink-1">
-                <NavLink href="/test/send-email">
-                    Test email
-                </NavLink>
-            </div>
-        </div>
-    </div>
+    <SiteNavbar />
 </header>
 
 <main class="pt-2 pb-3">

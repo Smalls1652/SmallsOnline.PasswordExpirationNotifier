@@ -1,0 +1,48 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Navbar
+
+@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Auth
+
+<div class="container-fluid p-2">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary rounded">
+        <div class="container-fluid">
+            <div class="d-flex">
+                <button aria-controls="navbar-items" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar-items" data-bs-toggle="collapse" type="button">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-items">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/">
+                            Home
+                        </NavLink>
+                    </li>
+                    <AuthorizeView>
+                        <Authorized>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/email-templates">
+                                    Email templates
+                                </NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/user-search-configs">
+                                    User search configs
+                                </NavLink>
+                            </li>
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="/test/send-email">
+                                    Test email
+                                </NavLink>
+                            </li>
+                        </Authorized>
+                    </AuthorizeView>
+                </ul>
+                <div class="d-flex justify-content-end ms-auto">
+                    <div class="flex-shrink-1">
+                        <LoginDisplay />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
