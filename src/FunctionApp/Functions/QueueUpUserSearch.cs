@@ -2,7 +2,7 @@
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
-using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Models;
+using SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
