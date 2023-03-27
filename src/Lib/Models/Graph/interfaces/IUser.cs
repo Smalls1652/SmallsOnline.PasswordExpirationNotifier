@@ -38,7 +38,7 @@ public interface IUser
     /// <summary>
     /// The <see cref="DateTimeOffset"/> value of when the user's password was last changed.
     /// </summary>
-    DateTimeOffset LastPasswordChangeDateTime { get; set; }
+    DateTimeOffset? LastPasswordChangeDateTime { get; set; }
 
     /// <summary>
     /// The on-premises Active Directory distinguished name for the user.

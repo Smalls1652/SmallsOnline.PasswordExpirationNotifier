@@ -33,7 +33,7 @@ public class User : IUser
 
     /// <inheritdoc />
     [JsonPropertyName("lastPasswordChangeDateTime")]
-    public DateTimeOffset LastPasswordChangeDateTime { get; set; }
+    public DateTimeOffset? LastPasswordChangeDateTime { get; set; }
 
     /// <inheritdoc />
     [JsonPropertyName("onPremisesDistinguishedName")]
