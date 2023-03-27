@@ -3,9 +3,8 @@ using System.Diagnostics;
 using System.Text.Json;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Models;
-using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models;
+using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
@@ -52,7 +51,7 @@ public class GetUsersQueue
 
         // Get the users from the Graph API.
         logger.LogInformation("Getting users from Graph API...");
-        User[] foundUsers = await _graphClientService.GetUsersAsync(
+        User[]? foundUsers = await _graphClientService.GetUsersAsync(
             domainName: queueItem.DomainName,
             ouPath: queueItem.OUPath,
             lastNameStartsWith: queueItem.LastNameStartsWith.ToUpper()
@@ -66,7 +65,11 @@ public class GetUsersQueue
         }
 
         // Get the users with expiring passwords.
-        UserPasswordExpirationDetails[] usersWithExpiringPasswords = Array.FindAll(foundUsersEnriched, user => user.PasswordIsExpiringSoon && user.PasswordIsExpired == false);
+        UserPasswordExpirationDetails[] usersWithExpiringPasswords = searchConfig.IgnorePasswordAge switch
+        {
+            true => foundUsersEnriched,
+            _ => Array.FindAll(foundUsersEnriched, user => user.PasswordIsExpiringSoon && user.PasswordIsExpired == false)
+        };
 
         // Send the users with expiring passwords to the email queue.
         foreach (var userItem in usersWithExpiringPasswords)
