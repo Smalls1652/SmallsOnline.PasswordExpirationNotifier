@@ -26,9 +26,18 @@
                             <div class="col-12 col-lg-6 p-2">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="mb-0">
-                                            @configItem.ConfigName
-                                        </h3>
+                                        <div class="d-flex mb-0">
+                                            <div>
+                                                <h3>
+                                                    @configItem.ConfigName
+                                                </h3>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <a class="btn btn-primary" href="/user-search-configs/edit/@configItem.Id" type="button">
+                                                    Edit
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <label class="fw-bold">
@@ -91,7 +100,7 @@
                     {
                         <div class="col-12">
                             <p>
-                                No email templates found. 😬
+                                No user configs found. 😬
                             </p>
                         </div>
                     }
