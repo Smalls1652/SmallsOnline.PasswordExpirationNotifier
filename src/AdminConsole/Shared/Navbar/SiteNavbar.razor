@@ -13,29 +13,25 @@
             <div class="collapse navbar-collapse" id="navbar-items">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <NavLink class="nav-link" href="/">
+                        <NavLink ActiveClass="active" Match="NavLinkMatch.All" class="nav-link" href="/">
                             Home
                         </NavLink>
                     </li>
-                    <AuthorizeView>
-                        <Authorized>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/email-templates">
-                                    Email templates
-                                </NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/user-search-configs">
-                                    User search configs
-                                </NavLink>
-                            </li>
-                            <li class="nav-item">
-                                <NavLink class="nav-link" href="/test/send-email">
-                                    Test email
-                                </NavLink>
-                            </li>
-                        </Authorized>
-                    </AuthorizeView>
+                    <li class="nav-item">
+                        <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="/email-templates">
+                            Email templates
+                        </NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="/user-search-configs">
+                            User search configs
+                        </NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink ActiveClass="active" Match="NavLinkMatch.Prefix" class="nav-link" href="/test/send-email">
+                            Test email
+                        </NavLink>
+                    </li>
                 </ul>
                 <div class="d-flex justify-content-end ms-auto">
                     <div class="flex-shrink-1">
