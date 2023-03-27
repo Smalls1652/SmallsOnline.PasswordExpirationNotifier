@@ -6,15 +6,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <Import Project="../../SmallsOnline.PasswordExpirationNotifier.props" />
+  
   <PropertyGroup>
-    <RootNamespace>SmallsOnline.PasswordExpirationNotifier.Lib</RootNamespace>
     <AssemblyName>SmallsOnline.PasswordExpirationNotifier.Lib</AssemblyName>
     <PackageId>SmallsOnline.PasswordExpirationNotifier.Lib</PackageId>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Helpers" />
-  </ItemGroup>
+  
+  <PropertyGroup>
+    <Description>
+      Class library for SmallsOnline.PasswordExpirationNotifier.
+    </Description>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Queues" Version="12.13.0" />

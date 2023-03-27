@@ -7,10 +7,17 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <Import Project="../../SmallsOnline.PasswordExpirationNotifier.props" />
+
     <PropertyGroup>
-        <RootNamespace>SmallsOnline.PasswordExpirationNotifier.FunctionApp</RootNamespace>
         <AssemblyName>SmallsOnline.PasswordExpirationNotifier.FunctionApp</AssemblyName>
         <PackageId>SmallsOnline.PasswordExpirationNotifier.FunctionApp</PackageId>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Description>
+            Backend Azure Function App for the Password Expiration Notifier.
+        </Description>
     </PropertyGroup>
 
     <ItemGroup>
