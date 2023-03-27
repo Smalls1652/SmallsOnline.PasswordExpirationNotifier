@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
+using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.UserSearchConfigs;
@@ -14,6 +15,9 @@ public partial class UserSearchConfigForm : ComponentBase
     /// </summary>
     [Inject]
     protected ICosmosDbClientService _cosmosDbClientService { get; set; } = null!;
+
+    [Inject]
+    protected IGraphClientService _graphClientService { get; set; } = null!;
 
     /// <summary>
     /// Logger for the component.
@@ -36,6 +40,9 @@ public partial class UserSearchConfigForm : ComponentBase
     private List<int>? _emailIntervalDays;
 
     private EmailTemplateConfig[]? _emailTemplateConfigs;
+
+    private User[]? _users;
+    private bool _loadingUsers = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -90,5 +97,18 @@ public partial class UserSearchConfigForm : ComponentBase
     private void HandleRemoveEmailIntervalDay(EmailIntervalDay emailIntervalDay)
     {
         UserSearchConfig.EmailIntervalDays!.Remove(emailIntervalDay);
+    }
+
+    private async Task HandleGetUsersAsync()
+    {
+        _loadingUsers = true;
+
+        _users = await _graphClientService.GetUsersAsync(
+            domainName: UserSearchConfig.DomainName!,
+            ouPath: UserSearchConfig.OUPath,
+            lastNameStartsWith: null
+        );
+        
+        _loadingUsers = false;
     }
 }

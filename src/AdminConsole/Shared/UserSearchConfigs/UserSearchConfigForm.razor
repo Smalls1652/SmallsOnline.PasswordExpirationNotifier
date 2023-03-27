@@ -130,5 +130,50 @@
                 </button>
             </div>
         </EditForm>
+        <div class="row pt-2">
+            <div class="col">
+                <button class="btn btn-primary" @onclick="HandleGetUsersAsync" type="button">
+                    Show users
+                </button>
+            </div>
+        </div>
+        @if (_loadingUsers)
+        {
+            <div class="row">
+                <div class="col">
+                    <p>
+                        Loading...
+                    </p>
+                </div>
+            </div>
+        }
+        else
+        {
+            @if (_users is not null && _users.Length != 0)
+            {
+                <div class="row">
+                    <div class="col">
+                        <ol class="list-group list-group-numbered">
+                            @foreach (var userItem in _users)
+                            {
+                                <li class="list-group-item">
+                                    @userItem.UserPrincipalName
+                                </li>
+                            }
+                        </ol>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col">
+                        <p>
+                            No users found.
+                        </p>
+                    </div>
+                </div>
+            }
+        }
     </div>
 </div>
