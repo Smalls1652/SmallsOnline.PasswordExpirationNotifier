@@ -13,7 +13,7 @@ public partial class GraphClientService
     /// <param name="lastNameStartsWith">The first character of the users' last name.</param>
     /// <returns>A collection of <see cref="User">users</see>.</returns>
     /// <exception cref="NullReferenceException">No users were found,</exception>
-    public async Task<User[]> GetUsersAsync(string domainName, string? ouPath, string? lastNameStartsWith)
+    public async Task<User[]?> GetUsersAsync(string domainName, string? ouPath, string? lastNameStartsWith)
     {
         User[]? users = null;
 
@@ -79,6 +79,12 @@ public partial class GraphClientService
             }
         }
 
-        return users!;
+        if (users is not null && ouPath is not null)
+        {
+            // If ouPath is not null, then filter the users by the OU path.
+            users = users.Where(item => item.OnPremisesDistinguishedName is not null && item.OnPremisesDistinguishedName.EndsWith(ouPath)).ToArray();
+        }
+
+        return users;
     }
 }

@@ -7,6 +7,6 @@ public interface IGraphClientService
 {
     GraphClient GraphClient { get; }
     Task<User> GetUserAsync(string userId);
-    Task<User[]> GetUsersAsync(string domainName, string? ouPath, string? lastNameStartsWith);
+    Task<User[]?> GetUsersAsync(string domainName, string? ouPath, string? lastNameStartsWith);
     Task SendEmailAsync(MailMessage message, string sendAsUser);
 }
