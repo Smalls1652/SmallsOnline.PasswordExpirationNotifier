@@ -11,7 +11,9 @@ public interface IUserSearchConfig
     string? DomainName { get; set; }
     string? OUPath { get; set; }
     int MaxPasswordAge { get; set; }
+    bool IgnorePasswordAge { get; set; }
     bool IsEmailIntervalsEnabled { get; set; }
     List<EmailIntervalDay>? EmailIntervalDays { get; set; }
     string? EmailTemplateId { get; set; }
+    bool DoNotSendEmails { get; set; }
 }

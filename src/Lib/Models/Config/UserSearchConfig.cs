@@ -61,6 +61,9 @@ public class UserSearchConfig : IUserSearchConfig
     [JsonPropertyName("maxPasswordAge")]
     public int MaxPasswordAge { get; set; }
 
+    [JsonPropertyName("ignorePasswordAge")]
+    public bool IgnorePasswordAge { get; set; }
+
     /// <summary>
     /// Whether to send emails in intervals, rather than every day.
     /// </summary>
@@ -78,4 +81,10 @@ public class UserSearchConfig : IUserSearchConfig
     /// </summary>
     [JsonPropertyName("emailTemplateId")]
     public string? EmailTemplateId { get; set; }
+
+    /// <summary>
+    /// Whether or not emails should be sent.
+    /// </summary>
+    [JsonPropertyName("doNotSendEmails")]
+    public bool DoNotSendEmails { get; set; }
 }
