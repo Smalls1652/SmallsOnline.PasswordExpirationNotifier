@@ -28,9 +28,18 @@
                             <div class="col-12 col-lg-6 p-2">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="mb-0">
-                                            @configItem.TemplateName
-                                        </h3>
+                                        <div class="d-flex">
+                                            <div>
+                                                <h3 class="mb-0">
+                                                    @configItem.TemplateName
+                                                </h3>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <a class="btn btn-primary" href="/email-templates/edit/@configItem.Id" type="button">
+                                                    Edit
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <label class="fw-bold">
@@ -65,16 +74,13 @@
                                     </div>
                                     <div class="card-footer">
                                         <div class="d-flex justify-content-end">
-                                            <a class="btn btn-primary" href="/email-templates/edit/@configItem.Id" type="button">
-                                                Edit
-                                            </a>
-                                            <button class="btn btn-danger ms-2"  data-bs-toggle="modal" data-bs-target="#delete-modal-@configItem.Id" type="button">
+                                            <button class="btn btn-danger ms-2" data-bs-target="#delete-modal-@configItem.Id" data-bs-toggle="modal" type="button">
                                                 Delete
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                                <DeleteModal ModalId="@configItem.Id" ModalTitle="Delete template" CallbackData="@configItem.Id" OnConfirmedCallback="@HandleRemoveEmailTemplateAsync">
+                                <DeleteModal CallbackData="@configItem.Id" ModalId="@configItem.Id" ModalTitle="Delete template" OnConfirmedCallback="@HandleRemoveEmailTemplateAsync">
                                     <p>
                                         Are you sure you want to delete the email template, @configItem.TemplateName?
                                     </p>
