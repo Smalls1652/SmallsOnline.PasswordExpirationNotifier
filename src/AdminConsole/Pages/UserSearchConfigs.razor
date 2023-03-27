@@ -3,6 +3,9 @@
 
 @using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Common
 
+<PageTitle>
+    User Search Configs - Password Expiration Notification Admin Console
+</PageTitle>
 <div class="row">
     <div class="d-flex">
         <div>
@@ -89,7 +92,7 @@
                                             <button class="btn btn-success" @onclick="async () => await HandleInvokeUserSearchConfigAsync(configItem.Id)" type="button">
                                                 Invoke
                                             </button>
-                                            <button class="btn btn-danger ms-2" data-bs-toggle="modal" data-bs-target="#delete-modal-@configItem.Id" type="button">
+                                            <button class="btn btn-danger ms-2" data-bs-target="#delete-modal-@configItem.Id" data-bs-toggle="modal" type="button">
                                                 Delete
                                             </button>
                                         </div>

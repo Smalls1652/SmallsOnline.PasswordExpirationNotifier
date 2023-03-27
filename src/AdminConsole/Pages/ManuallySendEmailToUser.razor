@@ -3,6 +3,9 @@
 
 @page "/test/send-email"
 
+<PageTitle>
+    Test email - Password Expiration Notification Admin Console
+</PageTitle>
 <div class="row">
     <h1>
         Manually Send Email
@@ -32,7 +35,7 @@
                                         <option selected value="notSet">
                                             Select an item...
                                         </option>
-                                        @foreach(var searchConfig in _userSearchConfigs)
+                                        @foreach (var searchConfig in _userSearchConfigs)
                                         {
                                             <option value="@searchConfig.Id">
                                                 @searchConfig.ConfigName

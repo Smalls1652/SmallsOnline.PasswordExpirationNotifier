@@ -3,6 +3,18 @@
 
 @page "/email-templates/edit/{id}"
 
+@if (_emailTemplateConfig is not null)
+{
+    <PageTitle>
+        Edit - @_emailTemplateConfig.TemplateName - Email Templates - Password Expiration Notification Admin Console
+    </PageTitle>
+}
+else
+{
+    <PageTitle>
+        Edit - Loading... - Email Templates - Password Expiration Notification Admin Console
+    </PageTitle>
+}
 <div class="row">
     <div class="d-flex">
         <div>

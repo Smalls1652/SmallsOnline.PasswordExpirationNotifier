@@ -3,6 +3,18 @@
 
 @page "/user-search-configs/edit/{id}"
 
+@if (_userSearchConfig is not null)
+{
+    <PageTitle>
+        Edit - @_userSearchConfig.ConfigName - User Search Configs - Password Expiration Notification Admin Console
+    </PageTitle>
+}
+else
+{
+    <PageTitle>
+        Edit - Loading... - User Search Configs - Password Expiration Notification Admin Console
+    </PageTitle>
+}
 <div class="row">
     <div class="d-flex">
         <div>
