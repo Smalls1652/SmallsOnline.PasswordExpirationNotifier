@@ -1,6 +1,8 @@
 ﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages
 @page "/email-templates"
 
+@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Common
+
 <div class="row">
     <div class="d-flex">
         <div>
@@ -66,12 +68,17 @@
                                             <a class="btn btn-primary" href="/email-templates/edit/@configItem.Id" type="button">
                                                 Edit
                                             </a>
-                                            <button class="btn btn-danger ms-2" @onclick="async () => await HandleRemoveEmailTemplateAsync(configItem.Id)" type="button">
+                                            <button class="btn btn-danger ms-2"  data-bs-toggle="modal" data-bs-target="#delete-modal-@configItem.Id" type="button">
                                                 Delete
                                             </button>
                                         </div>
                                     </div>
                                 </div>
+                                <DeleteModal ModalId="@configItem.Id" ModalTitle="Delete template" CallbackData="@configItem.Id" OnConfirmedCallback="@HandleRemoveEmailTemplateAsync">
+                                    <p>
+                                        Are you sure you want to delete the email template, @configItem.TemplateName?
+                                    </p>
+                                </DeleteModal>
                             </div>
                         }
                     }
