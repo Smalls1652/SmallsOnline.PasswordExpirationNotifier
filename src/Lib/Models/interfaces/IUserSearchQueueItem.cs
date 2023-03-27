@@ -1,6 +1,6 @@
 ﻿using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 
-namespace SmallsOnline.PasswordExpirationNotifier.FunctionApp.Models;
+namespace SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 
 public interface IUserSearchQueueItem
 {

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 
-namespace SmallsOnline.PasswordExpirationNotifier.FunctionApp.Models;
+namespace SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 
 /// <summary>
 /// Holds information about a user search to be performed.
