@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Models;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
