@@ -84,9 +84,9 @@
                                     </div>
                                     <div class="card-footer">
                                         <div class="d-flex justify-content-end">
-                                            <a class="btn btn-primary" href="/user-search-configs/edit/@configItem.Id" type="button">
-                                                Edit
-                                            </a>
+                                            <button class="btn btn-success" @onclick="async () => await HandleInvokeUserSearchConfigAsync(configItem.Id)" type="button">
+                                                Invoke
+                                            </button>
                                             <button class="btn btn-danger ms-2" @onclick="async () => await HandleRemoveUserSearchConfigAsync(configItem.Id)" type="button">
                                                 Delete
                                             </button>
