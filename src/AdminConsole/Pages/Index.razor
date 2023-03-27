@@ -1,8 +1,21 @@
 ﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages
-@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Auth
 
 @page "/"
 
 <div class="row">
-    <h1>Hello, world!</h1>
+    <h1>
+        Home
+    </h1>
+    <AuthorizeView>
+        <Authorized>
+            <p>
+                Select a page from the menu.
+            </p>
+        </Authorized>
+        <NotAuthorized>
+            <p>
+                Please sign in to continue.
+            </p>
+        </NotAuthorized>
+    </AuthorizeView>
 </div>
