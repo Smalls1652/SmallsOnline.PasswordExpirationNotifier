@@ -18,7 +18,7 @@ public class UserSearchQueueItem : IUserSearchQueueItem
     /// The domain name to search for users by.
     /// </summary>
     [JsonPropertyName("domainName")]
-    public string DomainName { get; set; } = null!;
+    public string? DomainName { get; set; }
 
     /// <summary>
     /// The first character of the users' last name to search by.
