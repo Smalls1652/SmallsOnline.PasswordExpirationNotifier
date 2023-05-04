@@ -27,7 +27,11 @@ public class QueueUpUserSearch
     }
 
     [Function("QueueUpUserSearch")]
-    public async Task Run([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequestData req,
+    public async Task Run(
+        [TimerTrigger(
+            schedule: "0 0 23 * * *",
+            RunOnStartup = false
+        )] TimerInfo timer,
         FunctionContext executionContext)
     {
         var logger = executionContext.GetLogger("QueueUpUserSearch");
