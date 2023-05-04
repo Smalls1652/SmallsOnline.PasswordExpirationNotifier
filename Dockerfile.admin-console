@@ -1,0 +1,32 @@
+FROM mcr.microsoft.com/dotnet/sdk:7.0 as build-env
+
+ARG GITHUB_USER
+ARG GITHUB_TOKEN
+
+RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash -; \
+    apt update; \
+    apt install -y nodejs python3
+
+RUN curl -qL https://www.npmjs.com/install.sh | sh
+RUN dotnet tool install --global PowerShell
+
+WORKDIR /app
+
+COPY ./global.json ./
+COPY ./nuget.config ./
+COPY ./SmallsOnline.PasswordExpirationNotifier.props ./
+COPY ./src/Lib/ ./src/Lib/
+COPY ./src/AdminConsole/ ./src/AdminConsole/
+
+RUN dotnet nuget add source https://nuget.pkg.github.com/Smalls1652/index.json --name github --username $GITHUB_USER --password $GITHUB_TOKEN --store-password-in-clear-text --configfile ./nuget.config
+
+RUN dotnet msbuild ./src/AdminConsole -t:"InitProject_Combined"
+RUN dotnet restore ./src/AdminConsole
+RUN dotnet publish ./src/AdminConsole --configuration Release --output out
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
+WORKDIR /app
+
+COPY --from=build-env /app/out .
+ENTRYPOINT [ "dotnet", "SmallsOnline.PasswordExpirationNotifier.AdminConsole.dll" ]
+EXPOSE 80
