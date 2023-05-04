@@ -42,7 +42,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/SmallsOnlinePasswordExpirationNotifierAdminConsole
+          images: ghcr.io/SmallsOnlinePasswordExpirationNotifierAdminConsole
           tags: |
             type=ref,event=tag
             type=ref,event=branch
