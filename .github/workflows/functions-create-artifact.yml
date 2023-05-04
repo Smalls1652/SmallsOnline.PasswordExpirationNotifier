@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow
+name: Azure Functions App / Create ZIP artifact
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+permissions:
+  packages: read
+  contents: read
+
+jobs:
+  create-artifact:
+    name: Create artifact
+    runs-on: ubuntu-latest
+
+    env:
+      EVENT_TYPE: ${{ github.event_name }}
+      TAG_NAME: ${{ github.ref_name }}
+
+    steps:
+      - name: Generate artifact tag value
+        shell: pwsh
+        run: |
+          "ARTIFACT_TAG=$($env:EVENT_TYPE -eq "push" ? $env:TAG_NAME : $([datetime]::Now.ToString("yyyyMMddTHHmmss")))" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: "Checkout GitHub Action"
+        uses: actions/checkout@v2
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "7.0.x"
+
+      - name: Configure NuGet
+        run: |
+          dotnet nuget add source https://nuget.pkg.github.com/Smalls1652/index.json --name github --username $GITHUB_USER --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --configfile ./nuget.config
+
+      - name: Build project
+        run: |
+          dotnet publish ./src/FunctionApp/ --configuration Release --output ./output/
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: "SmallsOnline-PasswordExpirationNotifier-FunctionApp_${{ env.ARTIFACT_TAG }}"
+          path: ./output/*
