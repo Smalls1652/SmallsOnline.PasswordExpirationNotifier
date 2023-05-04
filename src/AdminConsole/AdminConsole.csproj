@@ -59,14 +59,14 @@
 
     <Target Name="InitProject_Combined">
         <Message Importance="high" Text="-------------------------------------------------" />
-        <Message Importance="high" Text="Running initialization for Blazor WASM app" />
+        <Message Importance="high" Text="Running initialization for Blazor app" />
         <Message Importance="high" Text="-------------------------------------------------" />
         <CallTarget Targets="Clean;Restore;InitWebDependencies" />
     </Target>
 
     <Target Name="BuildProject_Combined">
         <Message Importance="high" Text="---------------------------------------" />
-        <Message Importance="high" Text="Running build for Blazor WASM app" />
+        <Message Importance="high" Text="Running build for Blazor app" />
         <Message Importance="high" Text="---------------------------------------" />
         <CallTarget Targets="Clean;Restore;InitWebDependencies;Build" />
     </Target>
