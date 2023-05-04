@@ -45,7 +45,7 @@ jobs:
         run: |
           dotnet publish ./src/FunctionApp/ --configuration Release --output ./output/
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: "SmallsOnline-PasswordExpirationNotifier-FunctionApp_${{ env.ARTIFACT_TAG }}"
           path: ./output/*
