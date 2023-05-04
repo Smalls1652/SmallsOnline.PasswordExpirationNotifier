@@ -37,6 +37,10 @@ jobs:
         run: |
           dotnet nuget add source https://nuget.pkg.github.com/Smalls1652/index.json --name github --username $GITHUB_USER --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --configfile ./nuget.config
 
+      - name: Restore project
+        run: |
+          dotnet restore ./src/FunctionApp/
+
       - name: Build project
         run: |
           dotnet publish ./src/FunctionApp/ --configuration Release --output ./output/
