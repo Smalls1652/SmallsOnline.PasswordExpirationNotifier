@@ -141,6 +141,30 @@
                     }
                 </div>
             </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        Default timezone:
+                    </label>
+                    @if (_emailTemplateConfigs is not null)
+                    {
+                        <InputSelect @bind-Value="UserSearchConfig.DefaultTimeZone" class="form-select">
+                            <option value="" selected disabled hidden>Select a timezone...</option>
+                            @foreach (var timeZoneItem in _timeZones)
+                            {
+                                @if (UserSearchConfig.DefaultTimeZone == timeZoneItem.Id)
+                                {
+                                    <option selected value="@timeZoneItem.Id">@timeZoneItem</option>
+                                }
+                                else
+                                {
+                                    <option value="@timeZoneItem.Id">@timeZoneItem</option>
+                                }
+                            }
+                        </InputSelect>
+                    }
+                </div>
+            </div>
             <div class="d-flex justify-content-end pt-2">
                 <button class="btn btn-primary" type="submit">
                     Submit

@@ -43,6 +43,7 @@ public partial class UserSearchConfigForm : ComponentBase
 
     private User[]? _users;
     private bool _loadingUsers = false;
+    private readonly TimeZoneInfo[] _timeZones = TimeZoneInfo.GetSystemTimeZones().ToArray();
 
     protected override async Task OnInitializedAsync()
     {
