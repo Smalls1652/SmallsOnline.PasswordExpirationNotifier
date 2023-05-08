@@ -80,5 +80,5 @@ public class UserPasswordExpirationDetails : IUserPasswordExpirationDetails
     /// Whether the user's password is expiring soon or not.
     /// </summary>
     [JsonPropertyName("passwordIsExpiringSoon")]
-    public bool PasswordIsExpiringSoon => PasswordExpiresIn <= TimeSpan.FromDays(10);
+    public bool PasswordIsExpiringSoon => PasswordExpiresIn.Days <= TimeSpan.FromDays(10).Days;
 }
