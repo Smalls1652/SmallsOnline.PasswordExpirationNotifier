@@ -6,7 +6,7 @@ public interface ICosmosDbClientService
 {
     void Dispose();
     Task<UserSearchConfig> GetUserSearchConfigAsync(string id);
-    Task<UserSearchConfig[]> GetUserSearchConfigsAsync();
+    Task<UserSearchConfig[]?> GetUserSearchConfigsAsync();
     Task<EmailTemplateConfig> GetEmailTemplateConfigAsync(string templateId);
     Task<EmailTemplateConfig[]?> GetEmailTemplateConfigsAsync();
     Task CreateOrUpdateEmailTemplateConfigAsync(EmailTemplateConfig emailTemplateConfig);

@@ -10,7 +10,7 @@ public partial class CosmosDbClientService
     /// </summary>
     /// <returns>A collection of <see cref="UserSearchConfig"/> items stored in the database.</returns>
     /// <exception cref="NullReferenceException">No configs were found in the database.</exception>
-    public async Task<UserSearchConfig[]> GetUserSearchConfigsAsync()
+    public async Task<UserSearchConfig[]?> GetUserSearchConfigsAsync()
     {
         // Get the Cosmos DB container.
         Container container = _cosmosClient.GetContainer(
@@ -36,7 +36,7 @@ public partial class CosmosDbClientService
         // If no configs were found, throw an exception.
         if (totalConfigCount == 0)
         {
-            throw new NullReferenceException("No user search configs found.");
+            return null;
         }
 
         // Create an array to hold the configs.
