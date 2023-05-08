@@ -16,4 +16,5 @@ public interface IUserSearchConfig
     List<EmailIntervalDay>? EmailIntervalDays { get; set; }
     string? EmailTemplateId { get; set; }
     bool DoNotSendEmails { get; set; }
+    string? DefaultTimeZone { get; set; }
 }

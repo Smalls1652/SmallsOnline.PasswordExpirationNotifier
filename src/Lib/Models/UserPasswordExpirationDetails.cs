@@ -18,7 +18,7 @@ public class UserPasswordExpirationDetails : IUserPasswordExpirationDetails
         Id = user.Id;
         User = user;
         UserSearchConfigId = searchConfig.Id;
-        PasswordLastSetDate = user.LastPasswordChangeDateTime is not null ? user.LastPasswordChangeDateTime.Value : DateTimeOffset.MinValue;
+        PasswordLastSetDate = user.LastPasswordChangeDateTime is not null ? user.LastPasswordChangeDateTime.Value.UtcDateTime : DateTimeOffset.MinValue;
         MaxPasswordAge = searchConfig.MaxPasswordAge;
     }
 

@@ -87,4 +87,7 @@ public class UserSearchConfig : IUserSearchConfig
     /// </summary>
     [JsonPropertyName("doNotSendEmails")]
     public bool DoNotSendEmails { get; set; }
+
+    [JsonPropertyName("defaultTimeZone")]
+    public string? DefaultTimeZone { get; set; }
 }
