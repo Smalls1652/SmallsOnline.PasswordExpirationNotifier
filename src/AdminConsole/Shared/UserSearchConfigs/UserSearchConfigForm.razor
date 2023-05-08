@@ -125,6 +125,7 @@
                     @if (_emailTemplateConfigs is not null)
                     {
                         <InputSelect @bind-Value="UserSearchConfig.EmailTemplateId" class="form-select">
+                            <option value="" selected disabled hidden>Select a template...</option>
                             @foreach (var emailTemplateConfig in _emailTemplateConfigs)
                             {
                                 @if (UserSearchConfig.EmailTemplateId == emailTemplateConfig.Id)
