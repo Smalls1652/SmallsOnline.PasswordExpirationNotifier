@@ -57,6 +57,14 @@ public class GetUsersQueue
             lastNameStartsWith: queueItem.LastNameStartsWith.ToUpper()
         );
 
+        if (foundUsers is null || foundUsers.Length == 0)
+        {
+            stopwatch.Stop();
+            logger.LogInformation("[{LastNameStartsWith} - {DomainName}] Found no users in {Minutes}:{Seconds}.{Milliseconds}.", queueItem.LastNameStartsWith, queueItem.DomainName, stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds);
+
+            return;
+        }
+
         // Enrich the users infor with password expiration details.
         UserPasswordExpirationDetails[] foundUsersEnriched = new UserPasswordExpirationDetails[foundUsers.Length];
         for (int i = 0; i < foundUsers.Length; i++)
