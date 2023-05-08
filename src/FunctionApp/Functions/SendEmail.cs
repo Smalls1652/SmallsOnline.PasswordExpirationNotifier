@@ -53,11 +53,15 @@ public class SendEmail
             return;
         }
 
+        // Convert the expiration date to a specific timezone.
+        // TODO: Make this configurable.
+        DateTime expirationTimeToTimezone = TimeZoneInfo.ConvertTimeFromUtc(queueItem.PasswordExpirationDate.Date, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+
         // Create the body of the email with the template and the queue item data.
         string emailBody = emailTemplateConfigItem.TemplateHtml!
             .Replace("{{USERNAME}}", queueItem.User.DisplayName)
             .Replace("{{EXPIREINDAYS}}", Math.Round(queueItem.PasswordExpiresIn.TotalDays, 0).ToString("00"))
-            .Replace("{{EXPIREDATE}}", queueItem.PasswordExpirationDate.ToString("MMMM dd, yyyy hh:mm tt zzz"));
+            .Replace("{{EXPIREDATE}}", expirationTimeToTimezone.ToString("MMMM dd, yyyy hh:mm tt zzz"));
 
         // Get the attachments for the email.
         FileAttachment[]? fileAttachments = null;
