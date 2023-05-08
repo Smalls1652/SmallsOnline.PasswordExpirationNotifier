@@ -55,7 +55,10 @@ public class SendEmail
 
         // Convert the expiration date to a specific timezone.
         // TODO: Make this configurable.
-        DateTime expirationTimeToTimezone = TimeZoneInfo.ConvertTimeFromUtc(queueItem.PasswordExpirationDate.UtcDateTime, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time"));
+
+        DateTimeOffset expirationTimeToTimezone = userSearchConfigItem.DefaultTimeZone is not null
+            ? TimeZoneInfo.ConvertTime(queueItem.PasswordExpirationDate, TimeZoneInfo.FindSystemTimeZoneById(userSearchConfigItem.DefaultTimeZone))
+            : queueItem.PasswordExpirationDate;
 
         // Create the body of the email with the template and the queue item data.
         string emailBody = emailTemplateConfigItem.TemplateHtml!
