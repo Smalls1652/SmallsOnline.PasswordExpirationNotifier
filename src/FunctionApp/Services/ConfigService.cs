@@ -23,13 +23,9 @@ public class ConfigService : IConfigService
         EmailTemplateConfigs = getEmailTemplateConfigsTask.Result;
     }
 
-    /// <summary>
-    /// User search configs for the application.
-    /// </summary>
+    /// <inheritdoc />
     public UserSearchConfig[] UserSearchConfigs { get; }
 
-    /// <summary>
-    /// Email template configs for the application.
-    /// </summary>
+    /// <inheritdoc />
     public EmailTemplateConfig[] EmailTemplateConfigs { get; }
 }
