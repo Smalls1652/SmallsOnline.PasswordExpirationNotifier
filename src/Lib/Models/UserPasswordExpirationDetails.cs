@@ -20,6 +20,7 @@ public class UserPasswordExpirationDetails : IUserPasswordExpirationDetails
         UserSearchConfigId = searchConfig.Id;
         PasswordLastSetDate = user.LastPasswordChangeDateTime is not null ? user.LastPasswordChangeDateTime.Value.UtcDateTime : DateTimeOffset.MinValue;
         MaxPasswordAge = searchConfig.MaxPasswordAge;
+        CorrelationId = Guid.NewGuid().ToString();
     }
 
     public UserPasswordExpirationDetails(User user, UserSearchConfig searchConfig, string correlationId)
