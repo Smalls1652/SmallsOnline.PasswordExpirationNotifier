@@ -5,14 +5,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class GraphClientService
 {
-    /// <summary>
-    /// Get all users from the Microsoft Graph API, based on the provided parameters.
-    /// </summary>
-    /// <param name="domainName">The domain name of the users.</param>
-    /// <param name="ouPath">The OU path for the users in an on-premises Active Directory domain.</param>
-    /// <param name="lastNameStartsWith">The first character of the users' last name.</param>
-    /// <returns>A collection of <see cref="User">users</see>.</returns>
-    /// <exception cref="NullReferenceException">No users were found,</exception>
+    /// <inheritdoc />
     public async Task<User[]?> GetUsersAsync(string domainName, string? ouPath, string? lastNameStartsWith)
     {
         User[]? users = null;

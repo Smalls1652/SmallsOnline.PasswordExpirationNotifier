@@ -5,10 +5,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class CosmosDbClientService
 {
-    /// <summary>
-    /// Create or update a user search config in the Cosmos DB database.
-    /// </summary>
-    /// <param name="userSearchConfig">The user search config to create/update.</param>
+    /// <inheritdoc />
     public async Task CreateOrUpdateUserSearchConfigAsync(UserSearchConfig userSearchConfig)
     {
         Container container = _cosmosClient.GetContainer(

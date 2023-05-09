@@ -7,87 +7,63 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 /// </summary>
 public class UserSearchConfig : IUserSearchConfig
 {
-    /// <summary>
-    /// The unique ID of the config.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("id")]
     public string Id { get; set; } = null!;
 
-    /// <summary>
-    /// The partition key for the config.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("partitionKey")]
     public string PartitionKey { get; set; } = null!;
 
-    /// <summary>
-    /// The name of the config.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("configName")]
     public string? ConfigName { get; set; }
 
-    /// <summary>
-    /// Whether the config is enabled or not.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("configEnabled")]
     public bool ConfigEnabled { get; set; }
 
-    /// <summary>
-    /// The description of the config.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("configDescription")]
     public string? ConfigDescription { get; set; }
 
-    /// <summary>
-    /// The last time the config was modified.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("configLastModified")]
     public DateTimeOffset? ConfigLastModified { get; set; }
 
-    /// <summary>
-    /// The domain name to search for users by.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("domainName")]
     public string? DomainName { get; set; }
 
-    /// <summary>
-    /// The OU path to search for users by.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("ouPath")]
     public string? OUPath { get; set; }
 
-    /// <summary>
-    /// The maximum password age in days.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("maxPasswordAge")]
     public int MaxPasswordAge { get; set; }
 
+    /// <inheritdoc />
     [JsonPropertyName("ignorePasswordAge")]
     public bool IgnorePasswordAge { get; set; }
 
-    /// <summary>
-    /// Whether to send emails in intervals, rather than every day.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("isEmailIntervalsEnabled")]
     public bool IsEmailIntervalsEnabled { get; set; }
 
-    /// <summary>
-    /// The days to send emails on when <see cref="IsEmailIntervalsEnabled"/> is true.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("emailIntervalDays")]
     public List<EmailIntervalDay>? EmailIntervalDays { get; set; }
 
-    /// <summary>
-    /// The ID of the email template to use.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("emailTemplateId")]
     public string? EmailTemplateId { get; set; }
 
-    /// <summary>
-    /// Whether or not emails should be sent.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("doNotSendEmails")]
     public bool DoNotSendEmails { get; set; }
 
+    /// <inheritdoc />
     [JsonPropertyName("defaultTimeZone")]
     public string? DefaultTimeZone { get; set; }
 }

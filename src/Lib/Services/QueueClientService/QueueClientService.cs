@@ -32,13 +32,9 @@ public class QueueClientService : IQueueClientService
         EmailQueueClient.CreateIfNotExists();
     }
 
-    /// <summary>
-    /// Queue client for the user search queue.
-    /// </summary>
+    /// <inheritdoc />
     public QueueClient UserSearchQueueClient { get; }
 
-    /// <summary>
-    /// Queue client for the email queue.
-    /// </summary>
+    /// <inheritdoc />
     public QueueClient EmailQueueClient { get; }
 }

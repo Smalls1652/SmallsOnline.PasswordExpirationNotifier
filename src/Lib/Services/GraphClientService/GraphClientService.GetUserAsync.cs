@@ -5,12 +5,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class GraphClientService
 {
-    /// <summary>
-    /// Get user information from the Microsoft Graph API.
-    /// </summary>
-    /// <param name="userId">The unique ID of the user.</param>
-    /// <returns>The user's data.</returns>
-    /// <exception cref="NullReferenceException">No user was found.</exception>
+    /// <inheritdoc />
     public async Task<User> GetUserAsync(string userId)
     {
         string apiEndpoint = $"users/{userId}?$select={string.Join(",", _graphUserProps)}";

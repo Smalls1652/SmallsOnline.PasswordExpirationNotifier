@@ -36,6 +36,7 @@ public partial class GraphClientService : IGraphClientService
         _graphClient.ConnectClient();
     }
 
+    /// <inheritdoc />
     public GraphClient GraphClient => _graphClient;
 
     [GeneratedRegex("^https:\\/\\/graph.microsoft.com\\/(?'version'v1\\.0|beta)\\/(?'endpoint'.+?)$")]

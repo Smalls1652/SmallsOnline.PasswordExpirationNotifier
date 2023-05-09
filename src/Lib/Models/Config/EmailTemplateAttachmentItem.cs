@@ -7,39 +7,27 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 /// </summary>
 public class EmailTemplateAttachmentItem : IEmailTemplateAttachmentItem
 {
-    /// <summary>
-    /// A unique ID for the attachment.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("id")]
     public string Id { get; set; } = null!;
 
-    /// <summary>
-    /// The partition key for the attachment.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("partitionKey")]
     public string PartitionKey { get; set; } = null!;
 
-    /// <summary>
-    /// The name of the file.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("fileName")]
     public string FileName { get; set; } = null!;
 
-    /// <summary>
-    /// A base64 encoded string of the file content.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("fileContents")]
     public string? FileContents { get; set; }
 
-    /// <summary>
-    /// Whether the attachment should be displayed inline with the email body.
-    /// </summary>
+    /// <inheritdoc />
     [JsonPropertyName("isInline")]
     public bool IsInline { get; set; }
 
-    /// <summary>
-    /// Whether the attachment has been uploaded to the DB.
-    /// </summary>
+    /// <inheritdoc />
     [JsonIgnore]
     public bool IsUploaded { get; set; } = true;
 }

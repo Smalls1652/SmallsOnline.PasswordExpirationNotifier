@@ -6,10 +6,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class CosmosDbClientService
 {
-    /// <summary>
-    /// Remove an email attachment item from the Cosmos DB database.
-    /// </summary>
-    /// <param name="id">The ID of the email attachment.</param>
+    /// <inheritdoc />
     public async Task RemoveEmailAttachmentItemAsync(string id)
     {
         Container container = _cosmosClient.GetContainer(

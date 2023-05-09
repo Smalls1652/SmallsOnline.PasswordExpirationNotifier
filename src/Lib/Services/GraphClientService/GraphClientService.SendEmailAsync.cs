@@ -5,12 +5,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class GraphClientService
 {
-    /// <summary>
-    /// Send an email using the Microsoft Graph API.
-    /// </summary>
-    /// <param name="message">The message to send.</param>
-    /// <param name="sendAsUser">The user principal name of the user to send the email as.</param>
-    /// <exception cref="Exception"></exception>
+    /// <inheritdoc />
     public async Task SendEmailAsync(MailMessage message, string sendAsUser)
     {
         // Serialize the message to JSON.

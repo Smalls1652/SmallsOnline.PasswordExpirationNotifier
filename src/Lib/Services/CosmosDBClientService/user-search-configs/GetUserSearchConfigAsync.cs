@@ -6,11 +6,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class CosmosDbClientService
 {
-    /// <summary>
-    /// Get a user search config from Cosmos DB.
-    /// </summary>
-    /// <param name="id">The unique ID for the user search config.</param>
-    /// <returns>The <see cref="UserSearchConfig"/> item.</returns>
+    /// <inheritdoc />
     public async Task<UserSearchConfig> GetUserSearchConfigAsync(string id)
     {
         // Get the Cosmos DB container.

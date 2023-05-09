@@ -5,10 +5,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class CosmosDbClientService
 {
-    /// <summary>
-    /// Remove an email template config from the Cosmos DB database.
-    /// </summary>
-    /// <param name="id">The ID of the email template.</param>
+    /// <inheritdoc />
     public async Task RemoveEmailTemplateConfigAsync(string id)
     {
         Container container = _cosmosClient.GetContainer(

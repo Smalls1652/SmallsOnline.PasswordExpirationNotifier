@@ -5,10 +5,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class CosmosDbClientService
 {
-    /// <summary>
-    /// Creates or updates email attachment items in the Cosmos DB database.
-    /// </summary>
-    /// <param name="attachmentItems">The email attachment items to create/update.</param>
+    /// <inheritdoc />
     public async Task CreateOrUpdateEmailAttachmentItemAsync(EmailTemplateAttachmentItem[] attachmentItems)
     {
         Container container = _cosmosClient.GetContainer(
