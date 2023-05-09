@@ -38,18 +38,18 @@ public class SendEmail
             jsonTypeInfo: _jsonSourceGenerationContext.UserPasswordExpirationDetails
         )!;
 
-        logger.LogInformation("Processing queue item for '{UserPrincipalName}'.", queueItem.User.UserPrincipalName);
+        logger.LogInformation("Processing queue item for '{UserPrincipalName}'. [CorrelationId: {CorrelationId}]", queueItem.User.UserPrincipalName, queueItem.CorrelationId);
 
         // Get the user search config and email template config for the queue item.
         UserSearchConfig userSearchConfigItem = Array.Find(_configService.UserSearchConfigs, config => config.Id == queueItem.UserSearchConfigId)!;
         EmailTemplateConfig emailTemplateConfigItem = Array.Find(_configService.EmailTemplateConfigs, config => config.Id == userSearchConfigItem.EmailTemplateId)!;
 
-        logger.LogInformation("Resolved search config to '{ConfigName} [{ConfigId}]'.", userSearchConfigItem.ConfigName, userSearchConfigItem.Id);
-        logger.LogInformation("Sending email with template '{EmailTemplateName} [{EmailTemplateId}]' to '{UserPrincipalName}'.", emailTemplateConfigItem.TemplateName, emailTemplateConfigItem.Id, queueItem.User.UserPrincipalName);
+        logger.LogInformation("Resolved search config to '{ConfigName} [{ConfigId}]'. [CorrelationId: {CorrelationId}]", userSearchConfigItem.ConfigName, userSearchConfigItem.Id, queueItem.CorrelationId);
+        logger.LogInformation("Sending email with template '{EmailTemplateName} [{EmailTemplateId}]' to '{UserPrincipalName}'. [CorrelationId: {CorrelationId}]", emailTemplateConfigItem.TemplateName, emailTemplateConfigItem.Id, queueItem.User.UserPrincipalName, queueItem.CorrelationId);
 
         if (userSearchConfigItem.IsEmailIntervalsEnabled == true && userSearchConfigItem.EmailIntervalDays!.Find(interval => interval.Value == (int)Math.Round(queueItem.PasswordExpiresIn.TotalDays, 0)) is null)
         {
-            logger.LogInformation("{UserPrincipalName} is not expected to receive an email yet. Skipping...", queueItem.User.UserPrincipalName);
+            logger.LogInformation("{UserPrincipalName} is not expected to receive an email yet. Skipping... [CorrelationId: {CorrelationId}]", queueItem.User.UserPrincipalName, queueItem.CorrelationId);
             return;
         }
 
@@ -98,16 +98,13 @@ public class SendEmail
             saveToSentItems: false
         );
 
-        // Send the email.
-        logger.LogInformation("Sending email as '{SendAsUser}'.", emailTemplateConfigItem.TemplateSendAsUser);
-
         if (!userSearchConfigItem.DoNotSendEmails)
         {
             await _graphClientService.SendEmailAsync(emailMessage, emailTemplateConfigItem.TemplateSendAsUser!);
         }
         else
         {
-            logger.LogWarning("Email sending is disabled for this search config. Skipping...");
+            logger.LogWarning("Email sending is disabled for this search config. Skipping... [CorrelationId: {CorrelationId}]", queueItem.CorrelationId);
         }
     }
 }

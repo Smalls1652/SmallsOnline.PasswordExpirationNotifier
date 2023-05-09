@@ -47,7 +47,7 @@ public class GetUsersQueue
         // Get the user search config.
         UserSearchConfig searchConfig = await _cosmosDbClientService.GetUserSearchConfigAsync(queueItem.UserSearchConfigId);
 
-        logger.LogInformation("Received request to get users with last name starting with {lastNameStartsWith} from {domainName}.", queueItem.LastNameStartsWith.ToUpper(), queueItem.DomainName);
+        logger.LogInformation("Received request to get users with last name starting with {lastNameStartsWith} from {domainName}. [CorrelationId: {CorrelationId}]",queueItem.LastNameStartsWith.ToUpper(), queueItem.DomainName, queueItem.CorrelationId);
 
         // Get the users from the Graph API.
         logger.LogInformation("Getting users from Graph API...");
@@ -60,7 +60,7 @@ public class GetUsersQueue
         if (foundUsers is null || foundUsers.Length == 0)
         {
             stopwatch.Stop();
-            logger.LogInformation("[{LastNameStartsWith} - {DomainName}] Found no users in {Minutes}:{Seconds}.{Milliseconds}.", queueItem.LastNameStartsWith, queueItem.DomainName, stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds);
+            logger.LogInformation("[{LastNameStartsWith} - {DomainName}] Found no users in {Minutes}:{Seconds}.{Milliseconds}. [CorrelationId: {CorrelationId}]", queueItem.LastNameStartsWith, queueItem.DomainName, stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds, queueItem.CorrelationId);
 
             return;
         }
@@ -89,6 +89,6 @@ public class GetUsersQueue
         }
 
         stopwatch.Stop();
-        logger.LogInformation("[{LastNameStartsWith} - {DomainName}] Found {foundUsersCount} users in {Minutes}:{Seconds}.{Milliseconds}.", queueItem.LastNameStartsWith, queueItem.DomainName, usersWithExpiringPasswords.Length, stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds);
+        logger.LogInformation("[{LastNameStartsWith} - {DomainName}] Found {foundUsersCount} users in {Minutes}:{Seconds}.{Milliseconds}. [CorrelationId: {CorrelationId}]", queueItem.LastNameStartsWith, queueItem.DomainName, usersWithExpiringPasswords.Length, stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds, queueItem.CorrelationId);
     }
 }
