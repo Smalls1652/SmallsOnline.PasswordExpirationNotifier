@@ -40,6 +40,9 @@ public class QueueUpUserSearch
         // Get the user search configs from the config service.
         UserSearchConfig[] searchConfigs = Array.FindAll(_configService.UserSearchConfigs, item => item.ConfigEnabled);
 
+        // Create a correlation ID to identify this run.
+        string correlationId = Guid.NewGuid().ToString();
+
         // Loop through each user search config and
         // create a queue message for each letter of the alphabet.
         Range range = new(65, 90);
@@ -48,7 +51,7 @@ public class QueueUpUserSearch
             for (int i = range.Start.Value; i <= range.End.Value; i++)
             {
                 string lastNameStartsWithChar = Convert.ToChar(i).ToString();
-                logger.LogInformation("Creating queue message for config '{ConfigName} [{ConfigId}]' with last name starting with '{LastNameStartsWithChar}'.", configItem.ConfigName, configItem.Id, lastNameStartsWithChar);
+                logger.LogInformation("Creating queue message for config '{ConfigName} [{ConfigId}]' with last name starting with '{LastNameStartsWithChar}'. [CorrelationId: {CorrelationId}]", configItem.ConfigName, configItem.Id, lastNameStartsWithChar, correlationId);
 
                 // Create the queue message.
                 await _queueClientService.UserSearchQueueClient.SendMessageAsync(
@@ -63,7 +66,7 @@ public class QueueUpUserSearch
                             IsEmailIntervalsEnabled = configItem.IsEmailIntervalsEnabled,
                             EmailIntervalDays = configItem.EmailIntervalDays,
                             EmailTemplateId = configItem.EmailTemplateId!,
-                            CorrelationId = Guid.NewGuid().ToString()
+                            CorrelationId = correlationId
                         },
                         jsonTypeInfo: _jsonSourceGenerationContext.UserSearchQueueItem
                     )

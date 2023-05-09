@@ -75,6 +75,9 @@ public partial class UserSearchConfigs : ComponentBase
         // Get the user search config from the database.
         UserSearchConfig configItem = await _cosmosDbClientService.GetUserSearchConfigAsync(id);
 
+        // Create a correlation ID to identify this run.
+        string correlationId = Guid.NewGuid().ToString();
+
         // Create a range for the unicode values of A-Z.
         Range range = new(65, 90);
         for (int i = range.Start.Value; i <= range.End.Value; i++)
@@ -95,7 +98,7 @@ public partial class UserSearchConfigs : ComponentBase
                         IsEmailIntervalsEnabled = configItem.IsEmailIntervalsEnabled,
                         EmailIntervalDays = configItem.EmailIntervalDays,
                         EmailTemplateId = configItem.EmailTemplateId!,
-                        CorrelationId = Guid.NewGuid().ToString()
+                        CorrelationId = correlationId
                     },
                     jsonTypeInfo: _jsonSourceGenerationContext.UserSearchQueueItem
                 )
