@@ -56,4 +56,9 @@ public interface IUserPasswordExpirationDetails
     /// Whether the user's password is expiring soon or not.
     /// </summary>
     bool PasswordIsExpiringSoon { get; }
+
+    /// <summary>
+    /// A unique ID to correlate the user search with the email sending.
+    /// </summary>
+    string CorrelationId { get; set; }
 }
