@@ -65,7 +65,7 @@ public class GetUsersQueue
             return;
         }
 
-        // Enrich the users infor with password expiration details.
+        // Enrich the users info with password expiration details.
         UserPasswordExpirationDetails[] foundUsersEnriched = new UserPasswordExpirationDetails[foundUsers.Length];
         for (int i = 0; i < foundUsers.Length; i++)
         {
