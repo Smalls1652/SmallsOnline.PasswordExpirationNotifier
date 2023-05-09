@@ -94,7 +94,8 @@ public partial class UserSearchConfigs : ComponentBase
                         MaxPasswordAge = configItem.MaxPasswordAge,
                         IsEmailIntervalsEnabled = configItem.IsEmailIntervalsEnabled,
                         EmailIntervalDays = configItem.EmailIntervalDays,
-                        EmailTemplateId = configItem.EmailTemplateId!
+                        EmailTemplateId = configItem.EmailTemplateId!,
+                        CorrelationId = Guid.NewGuid().ToString()
                     },
                     jsonTypeInfo: _jsonSourceGenerationContext.UserSearchQueueItem
                 )
