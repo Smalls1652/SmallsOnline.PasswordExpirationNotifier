@@ -69,7 +69,7 @@ public class GetUsersQueue
         UserPasswordExpirationDetails[] foundUsersEnriched = new UserPasswordExpirationDetails[foundUsers.Length];
         for (int i = 0; i < foundUsers.Length; i++)
         {
-            foundUsersEnriched[i] = new(foundUsers[i], searchConfig);
+            foundUsersEnriched[i] = new(foundUsers[i], searchConfig, queueItem.CorrelationId);
         }
 
         // Get the users with expiring passwords.
