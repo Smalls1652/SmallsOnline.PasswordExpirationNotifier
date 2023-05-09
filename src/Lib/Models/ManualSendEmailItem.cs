@@ -14,4 +14,8 @@ public class ManualSendEmailItem : IManualSendEmailItem
     /// <inheritdoc />
     [JsonPropertyName("userSearchConfigId")]
     public string? UserSearchConfigId { get; set; }
+
+    /// <inheritdoc />
+    [JsonPropertyName("correlationId")]
+    public string CorrelationId { get; set; } = null!;
 }

@@ -46,4 +46,9 @@ public interface IUserSearchQueueItem
     /// The ID of the email template to use.
     /// </summary>
     string EmailTemplateId { get; set; }
+
+    /// <summary>
+    /// A unique ID to correlate the user search with the email sending.
+    /// </summary>
+    string CorrelationId { get; set; }
 }

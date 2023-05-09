@@ -20,6 +20,17 @@ public class UserPasswordExpirationDetails : IUserPasswordExpirationDetails
         UserSearchConfigId = searchConfig.Id;
         PasswordLastSetDate = user.LastPasswordChangeDateTime is not null ? user.LastPasswordChangeDateTime.Value.UtcDateTime : DateTimeOffset.MinValue;
         MaxPasswordAge = searchConfig.MaxPasswordAge;
+        CorrelationId = Guid.NewGuid().ToString();
+    }
+
+    public UserPasswordExpirationDetails(User user, UserSearchConfig searchConfig, string correlationId)
+    {
+        Id = user.Id;
+        User = user;
+        UserSearchConfigId = searchConfig.Id;
+        PasswordLastSetDate = user.LastPasswordChangeDateTime is not null ? user.LastPasswordChangeDateTime.Value.UtcDateTime : DateTimeOffset.MinValue;
+        MaxPasswordAge = searchConfig.MaxPasswordAge;
+        CorrelationId = correlationId;
     }
 
     /// <inheritdoc />
@@ -61,4 +72,8 @@ public class UserPasswordExpirationDetails : IUserPasswordExpirationDetails
     /// <inheritdoc />
     [JsonPropertyName("passwordIsExpiringSoon")]
     public bool PasswordIsExpiringSoon => PasswordExpiresIn.Days <= TimeSpan.FromDays(10).Days;
+
+    /// <inheritdoc />
+    [JsonPropertyName("correlationId")]
+    public string CorrelationId { get; set; } = null!;
 }

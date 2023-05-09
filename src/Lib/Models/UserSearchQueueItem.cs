@@ -39,4 +39,8 @@ public class UserSearchQueueItem : IUserSearchQueueItem
     /// <inheritdoc />
     [JsonPropertyName("emailTemplateId")]
     public string EmailTemplateId { get; set; } = null!;
+
+    /// <inheritdoc />
+    [JsonPropertyName("correlationId")]
+    public string CorrelationId { get; set; } = null!;
 }
