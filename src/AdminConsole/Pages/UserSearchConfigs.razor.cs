@@ -20,6 +20,9 @@ public partial class UserSearchConfigs : ComponentBase
     [Inject]
     protected ICosmosDbClientService _cosmosDbClientService { get; set; } = null!;
 
+    /// <summary>
+    /// Dependency injected service for interacting with the Queue.
+    /// </summary>
     [Inject]
     protected IQueueClientService _queueClientService { get; set; } = null!;
 
@@ -61,11 +64,18 @@ public partial class UserSearchConfigs : ComponentBase
         _loading = false;
     }
 
+    /// <summary>
+    /// Manually invoke a user search config to run.
+    /// </summary>
+    /// <param name="id">The ID of the <see cref="SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config.UserSearchConfig" />.</param>
     private async Task HandleInvokeUserSearchConfigAsync(string id)
     {
         _logger.LogWarning("Invoking user search config with id: {id}", id);
+
+        // Get the user search config from the database.
         UserSearchConfig configItem = await _cosmosDbClientService.GetUserSearchConfigAsync(id);
 
+        // Create a range for the unicode values of A-Z.
         Range range = new(65, 90);
         for (int i = range.Start.Value; i <= range.End.Value; i++)
         {
@@ -92,6 +102,10 @@ public partial class UserSearchConfigs : ComponentBase
         }
     }
 
+    /// <summary>
+    /// Handle the callback from the delete modal to remove a user search config.
+    /// </summary>
+    /// <param name="id">The ID of the <see cref="SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config.UserSearchConfig" />.</param>
     private async Task HandleRemoveUserSearchConfigAsync(string id)
     {
         _logger.LogWarning("Removing user search config with id: {id}", id);

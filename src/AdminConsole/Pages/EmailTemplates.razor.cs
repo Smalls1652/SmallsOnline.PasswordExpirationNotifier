@@ -54,6 +54,10 @@ public partial class EmailTemplates : ComponentBase
         _loading = false;
     }
 
+    /// <summary>
+    /// Handle the callback from the delete modal to remove an email template.
+    /// </summary>
+    /// <param name="id">The ID of the <see cref="SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config.EmailTemplateConfig" />.</param>
     private async Task HandleRemoveEmailTemplateAsync(string id)
     {
         await _cosmosDbClientService.RemoveEmailTemplateConfigAsync(id);
