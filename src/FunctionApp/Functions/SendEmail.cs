@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
+using Microsoft.ApplicationInsights;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Logging;
 using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
@@ -18,19 +18,21 @@ public class SendEmail
     private readonly IGraphClientService _graphClientService;
     private readonly IConfigService _configService;
     private readonly JsonSourceGenerationContext _jsonSourceGenerationContext = new();
+    private readonly TelemetryClient _telemetryClient;
 
-    public SendEmail(ICosmosDbClientService cosmosDbClientService, IGraphClientService graphClientService, IConfigService configService)
+    public SendEmail(ICosmosDbClientService cosmosDbClientService, IGraphClientService graphClientService, IConfigService configService, TelemetryClient telemetryClient)
     {
         _cosmosDbClientService = cosmosDbClientService;
         _graphClientService = graphClientService;
         _configService = configService;
+        _telemetryClient = telemetryClient;
     }
 
     [Function("SendEmail")]
     public async Task Run([QueueTrigger("email-queue")] string queueItemContents,
-        FunctionContext context)
+        FunctionContext executionContext)
     {
-        var logger = context.GetLogger("SendEmail");
+        var logger = executionContext.GetLogger("SendEmail");
 
         // Deserialize the queue item.
         UserPasswordExpirationDetails queueItem = JsonSerializer.Deserialize(
@@ -38,18 +40,19 @@ public class SendEmail
             jsonTypeInfo: _jsonSourceGenerationContext.UserPasswordExpirationDetails
         )!;
 
-        logger.LogInformation("Processing queue item for '{UserPrincipalName}'. [CorrelationId: {CorrelationId}]", queueItem.User.UserPrincipalName, queueItem.CorrelationId);
+        LoggingHelper.LogInformation(_configService.AppInsightsEnabled ? _telemetryClient : logger, "Processing queue item for '{0}'.", queueItem.CorrelationId, executionContext, queueItem.User.UserPrincipalName);
 
         // Get the user search config and email template config for the queue item.
         UserSearchConfig userSearchConfigItem = Array.Find(_configService.UserSearchConfigs, config => config.Id == queueItem.UserSearchConfigId)!;
         EmailTemplateConfig emailTemplateConfigItem = Array.Find(_configService.EmailTemplateConfigs, config => config.Id == userSearchConfigItem.EmailTemplateId)!;
 
-        logger.LogInformation("Resolved search config to '{ConfigName} [{ConfigId}]'. [CorrelationId: {CorrelationId}]", userSearchConfigItem.ConfigName, userSearchConfigItem.Id, queueItem.CorrelationId);
-        logger.LogInformation("Sending email with template '{EmailTemplateName} [{EmailTemplateId}]' to '{UserPrincipalName}'. [CorrelationId: {CorrelationId}]", emailTemplateConfigItem.TemplateName, emailTemplateConfigItem.Id, queueItem.User.UserPrincipalName, queueItem.CorrelationId);
+        LoggingHelper.LogInformation(_configService.AppInsightsEnabled ? _telemetryClient : logger, "Resolved search config to '{0} [{1}]'.", queueItem.CorrelationId, executionContext, userSearchConfigItem.ConfigName, userSearchConfigItem.Id);
+
+        LoggingHelper.LogInformation(_configService.AppInsightsEnabled ? _telemetryClient : logger, "Sending email with template '{0} [{1}]' to '{2}'.", queueItem.CorrelationId, executionContext, emailTemplateConfigItem.TemplateName, emailTemplateConfigItem.Id, queueItem.User.UserPrincipalName);
 
         if (userSearchConfigItem.IsEmailIntervalsEnabled == true && userSearchConfigItem.EmailIntervalDays!.Find(interval => interval.Value == (int)Math.Round(queueItem.PasswordExpiresIn.TotalDays, 0)) is null)
         {
-            logger.LogInformation("{UserPrincipalName} is not expected to receive an email yet. Skipping... [CorrelationId: {CorrelationId}]", queueItem.User.UserPrincipalName, queueItem.CorrelationId);
+            LoggingHelper.LogInformation(_configService.AppInsightsEnabled ? _telemetryClient : logger, "{0} is not expected to receive an email yet. Skipping...", queueItem.CorrelationId, executionContext, queueItem.User.UserPrincipalName);
             return;
         }
 
@@ -104,7 +107,7 @@ public class SendEmail
         }
         else
         {
-            logger.LogWarning("Email sending is disabled for this search config. Skipping... [CorrelationId: {CorrelationId}]", queueItem.CorrelationId);
+            LoggingHelper.LogInformation(_configService.AppInsightsEnabled ? _telemetryClient : logger, "Email sending is disabled for this search config. Skipping...", queueItem.CorrelationId, executionContext);
         }
     }
 }

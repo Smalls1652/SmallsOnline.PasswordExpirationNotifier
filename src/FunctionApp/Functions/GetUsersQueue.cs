@@ -1,8 +1,7 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text.Json;
+using Microsoft.ApplicationInsights;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Extensions.Logging;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
@@ -16,16 +15,20 @@ namespace SmallsOnline.PasswordExpirationNotifier.FunctionApp;
 /// </summary>
 public class GetUsersQueue
 {
+    private readonly IConfigService _configService;
     private readonly IGraphClientService _graphClientService;
     private readonly ICosmosDbClientService _cosmosDbClientService;
     private readonly IQueueClientService _queueClientService;
     private readonly JsonSourceGenerationContext _jsonSourceGenerationContext = new();
+    private readonly TelemetryClient _telemetryClient;
 
-    public GetUsersQueue(IGraphClientService graphClientService, ICosmosDbClientService cosmosDbClientService, IQueueClientService queueClientService)
+    public GetUsersQueue(IConfigService configService, IGraphClientService graphClientService, ICosmosDbClientService cosmosDbClientService, IQueueClientService queueClientService, TelemetryClient telemetryClient)
     {
+        _configService = configService;
         _graphClientService = graphClientService;
         _cosmosDbClientService = cosmosDbClientService;
         _queueClientService = queueClientService;
+        _telemetryClient = telemetryClient;
     }
 
     [Function("GetUsersQueue")]
@@ -47,10 +50,10 @@ public class GetUsersQueue
         // Get the user search config.
         UserSearchConfig searchConfig = await _cosmosDbClientService.GetUserSearchConfigAsync(queueItem.UserSearchConfigId);
 
-        logger.LogInformation("Received request to get users with last name starting with {lastNameStartsWith} from {domainName}. [CorrelationId: {CorrelationId}]",queueItem.LastNameStartsWith.ToUpper(), queueItem.DomainName, queueItem.CorrelationId);
+        LoggingHelper.LogInformation(_configService.AppInsightsEnabled ? _telemetryClient : logger, "Received request to get users with last name starting with {0} from {1}.", queueItem.CorrelationId, executionContext, queueItem.LastNameStartsWith.ToUpper(), queueItem.DomainName);
 
         // Get the users from the Graph API.
-        logger.LogInformation("Getting users from Graph API...");
+        LoggingHelper.LogInformation(_configService.AppInsightsEnabled ? _telemetryClient : logger, "Getting users from Graph API...", queueItem.CorrelationId, executionContext);
         User[]? foundUsers = await _graphClientService.GetUsersAsync(
             domainName: queueItem.DomainName,
             ouPath: queueItem.OUPath,
@@ -60,7 +63,7 @@ public class GetUsersQueue
         if (foundUsers is null || foundUsers.Length == 0)
         {
             stopwatch.Stop();
-            logger.LogInformation("[{LastNameStartsWith} - {DomainName}] Found no users in {Minutes}:{Seconds}.{Milliseconds}. [CorrelationId: {CorrelationId}]", queueItem.LastNameStartsWith, queueItem.DomainName, stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds, queueItem.CorrelationId);
+            LoggingHelper.LogInformation(_configService.AppInsightsEnabled ? _telemetryClient : logger, "[{0} - {1}] Found no users in {2}:{3}.{4}.", queueItem.CorrelationId, executionContext, queueItem.LastNameStartsWith, queueItem.DomainName, stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds);
 
             return;
         }
@@ -89,6 +92,6 @@ public class GetUsersQueue
         }
 
         stopwatch.Stop();
-        logger.LogInformation("[{LastNameStartsWith} - {DomainName}] Found {foundUsersCount} users in {Minutes}:{Seconds}.{Milliseconds}. [CorrelationId: {CorrelationId}]", queueItem.LastNameStartsWith, queueItem.DomainName, usersWithExpiringPasswords.Length, stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds, queueItem.CorrelationId);
+        LoggingHelper.LogWarning(_configService.AppInsightsEnabled ? _telemetryClient : logger, "[{0} - {1}] Found {2} users in {3}:{4}.{5}.", queueItem.CorrelationId, executionContext, queueItem.LastNameStartsWith, queueItem.DomainName, usersWithExpiringPasswords.Length, stopwatch.Elapsed.Minutes, stopwatch.Elapsed.Seconds, stopwatch.Elapsed.Milliseconds);
     }
 }

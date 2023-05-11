@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
+using Microsoft.ApplicationInsights;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
@@ -14,13 +14,17 @@ namespace SmallsOnline.PasswordExpirationNotifier.FunctionApp;
 /// </summary>
 public class QueueUpUserSearch
 {
+    private readonly TelemetryClient _telemetryClient;
+    private readonly ILogger<QueueUpUserSearch> _logger;
     private readonly IConfigService _configService;
     private readonly ICosmosDbClientService _cosmosDbClientService;
     private readonly IQueueClientService _queueClientService;
     private readonly JsonSourceGenerationContext _jsonSourceGenerationContext = new();
 
-    public QueueUpUserSearch(IConfigService configService, ICosmosDbClientService cosmosDbClientService, IQueueClientService queueClientService)
+    public QueueUpUserSearch(TelemetryClient telemetryClient, ILogger<QueueUpUserSearch> logger, IConfigService configService, ICosmosDbClientService cosmosDbClientService, IQueueClientService queueClientService)
     {
+        _telemetryClient = telemetryClient;
+        _logger = logger;
         _configService = configService;
         _cosmosDbClientService = cosmosDbClientService;
         _queueClientService = queueClientService;
@@ -35,7 +39,8 @@ public class QueueUpUserSearch
         FunctionContext executionContext)
     {
         var logger = executionContext.GetLogger("QueueUpUserSearch");
-        logger.LogInformation("C# HTTP trigger function processed a request.");
+
+        _logger.LogInformation("C# HTTP trigger function processed a request.");
 
         // Get the user search configs from the config service.
         UserSearchConfig[] searchConfigs = Array.FindAll(_configService.UserSearchConfigs, item => item.ConfigEnabled);
@@ -51,7 +56,8 @@ public class QueueUpUserSearch
             for (int i = range.Start.Value; i <= range.End.Value; i++)
             {
                 string lastNameStartsWithChar = Convert.ToChar(i).ToString();
-                logger.LogInformation("Creating queue message for config '{ConfigName} [{ConfigId}]' with last name starting with '{LastNameStartsWithChar}'. [CorrelationId: {CorrelationId}]", configItem.ConfigName, configItem.Id, lastNameStartsWithChar, correlationId);
+
+                LoggingHelper.LogInformation(_configService.AppInsightsEnabled ? _telemetryClient : logger, "Creating queue message for config '{0} [{1}]' with last name starting with '{2}'.", correlationId, executionContext, configItem.ConfigName, configItem.Id, lastNameStartsWithChar);
 
                 // Create the queue message.
                 await _queueClientService.UserSearchQueueClient.SendMessageAsync(
