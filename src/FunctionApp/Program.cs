@@ -20,22 +20,22 @@ IHostBuilder hostBuilder = new HostBuilder()
         {
             services.AddSingleton<IGraphClientService, GraphClientService>(
                 provider => new GraphClientService(
-                    clientId: AppSettingsHelper.GetSettingValue("clientId"),
-                    clientSecret: AppSettingsHelper.GetSettingValue("clientSecret"),
-                    tenantId: AppSettingsHelper.GetSettingValue("tenantId")
+                    clientId: AppSettingsHelper.GetSettingValue("clientId")!,
+                    clientSecret: AppSettingsHelper.GetSettingValue("clientSecret")!,
+                    tenantId: AppSettingsHelper.GetSettingValue("tenantId")!
                 )
             );
 
             services.AddSingleton<ICosmosDbClientService, CosmosDbClientService>(
                 provider => new CosmosDbClientService(
-                    connectionString: AppSettingsHelper.GetSettingValue("cosmosDbConnectionString"),
-                    databaseName: AppSettingsHelper.GetSettingValue("cosmosDbDatabaseName")
+                    connectionString: AppSettingsHelper.GetSettingValue("cosmosDbConnectionString")!,
+                    databaseName: AppSettingsHelper.GetSettingValue("cosmosDbDatabaseName")!
                 )
             );
 
             services.AddSingleton<IQueueClientService, QueueClientService>(
                 provider => new(
-                    connectionString: AppSettingsHelper.GetSettingValue("storageConnectionString")
+                    connectionString: AppSettingsHelper.GetSettingValue("storageConnectionString")!
                 )
             );
 
