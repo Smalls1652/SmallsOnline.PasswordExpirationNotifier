@@ -1,11 +1,20 @@
+using Microsoft.ApplicationInsights;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SmallsOnline.PasswordExpirationNotifier.FunctionApp;
 using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
-var host = new HostBuilder()
-    .ConfigureFunctionsWorkerDefaults()
+IHostBuilder hostBuilder = new HostBuilder()
+    .ConfigureFunctionsWorkerDefaults(builder =>
+    {
+        if (AppSettingsHelper.GetSettingValue("APPLICATIONINSIGHTS_CONNECTION_STRING") is not null && AppSettingsHelper.GetSettingValue("APPINSIGHTS_INSTRUMENTATIONKEY") is not null)
+        {
+            builder.AddApplicationInsights();
+            builder.AddApplicationInsightsLogger();
+        }
+    })
     .ConfigureServices(
         services =>
         {
@@ -30,8 +39,11 @@ var host = new HostBuilder()
                 )
             );
 
-            services.AddTransient<IConfigService, ConfigService>();
-        })
-    .Build();
+            services.AddSingleton<TelemetryClient>();
 
-host.Run();
+            services.AddTransient<IConfigService, ConfigService>();
+        });
+
+var host = hostBuilder.Build();
+
+await host.RunAsync();
