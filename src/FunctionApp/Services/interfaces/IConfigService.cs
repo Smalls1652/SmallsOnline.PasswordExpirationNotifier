@@ -16,4 +16,6 @@ public interface IConfigService
     /// Email template configs for the application.
     /// </summary>
     EmailTemplateConfig[] EmailTemplateConfigs { get; }
+
+    bool AppInsightsEnabled { get; }
 }

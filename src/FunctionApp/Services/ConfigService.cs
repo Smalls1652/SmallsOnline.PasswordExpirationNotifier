@@ -10,6 +10,8 @@ public class ConfigService : IConfigService
 {
     public ConfigService(ICosmosDbClientService cosmosDbClientService)
     {
+        AppInsightsEnabled = AppSettingsHelper.GetSettingValue("APPLICATIONINSIGHTS_CONNECTION_STRING") is not null && AppSettingsHelper.GetSettingValue("APPINSIGHTS_INSTRUMENTATIONKEY") is not null;
+
         // Get the user search configs and email template configs from Cosmos DB.
         var getUserSearchConfigsTask = Task.Run(async () => await cosmosDbClientService.GetUserSearchConfigsAsync());
         var getEmailTemplateConfigsTask = Task.Run(async () => await cosmosDbClientService.GetEmailTemplateConfigsAsync());
@@ -28,4 +30,6 @@ public class ConfigService : IConfigService
 
     /// <inheritdoc />
     public EmailTemplateConfig[] EmailTemplateConfigs { get; }
+
+    public bool AppInsightsEnabled { get; }
 }
