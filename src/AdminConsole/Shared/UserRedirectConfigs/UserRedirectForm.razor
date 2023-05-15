@@ -1,0 +1,39 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.UserRedirectConfigs
+
+@inherits ComponentBase
+
+<div class="row">
+    <div class="col-12">
+        <EditForm Model="@UserEmailRedirect" OnSubmit="@HandleFormSubmitAsync">
+            <div class="row">
+                <div class="col">
+                    <label class="fw-bold form-label">
+                        ID:
+                    </label>
+                    <InputText @bind-Value="UserEmailRedirect.Id" class="form-control" disabled readonly />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        User Principal Name:
+                    </label>
+                    <InputText @bind-Value="UserEmailRedirect.UserPrincipalName" class="form-control" />
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col">
+                    <label class="form-label fw-bold">
+                        Target User Principal Name:
+                    </label>
+                    <InputText @bind-Value="UserEmailRedirect.RedirectUserPrincipalName" class="form-control" />
+                </div>
+            </div>
+            <div class="d-flex justify-content-end pt-2">
+                <button class="btn btn-primary" type="submit">
+                    Submit
+                </button>
+            </div>
+        </EditForm>
+    </div>
+</div>
