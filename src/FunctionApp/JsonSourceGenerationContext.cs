@@ -31,6 +31,8 @@ namespace SmallsOnline.PasswordExpirationNotifier.FunctionApp;
 [JsonSerializable(typeof(EmailTemplateConfig[]))]
 [JsonSerializable(typeof(EmailTemplateAttachmentItem))]
 [JsonSerializable(typeof(EmailTemplateAttachmentItem[]))]
+[JsonSerializable(typeof(UserEmailRedirectConfig))]
+[JsonSerializable(typeof(UserEmailRedirectConfig[]))]
 internal partial class JsonSourceGenerationContext : JsonSerializerContext
 {
 }

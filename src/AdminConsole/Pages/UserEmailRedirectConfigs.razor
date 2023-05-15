@@ -1,0 +1,98 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages
+@page "/user-redirect-configs"
+
+@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Common
+
+<PageTitle>
+    User Email Redirect Configs - Password Expiration Notification Admin Console
+</PageTitle>
+<div class="row">
+    <div class="d-flex">
+        <div>
+            <h1>
+                User Email Redirect Configs
+            </h1>
+        </div>
+        <div class="ms-3 my-auto flex-shrink-1">
+            <a class="btn btn-success" href="/user-redirect-configs/new" role="button">
+                New
+            </a>
+        </div>
+    </div>
+    <AuthorizeView>
+        <Authorized>
+            <div class="row">
+                @if (_loading == false)
+                {
+                    @if (_userEmailRedirects is not null)
+                    {
+                        @foreach (var configItem in _userEmailRedirects)
+                        {
+                            <div class="col-12 col-lg-6 p-2">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="d-flex mb-0">
+                                            <div>
+                                                <h3>
+                                                    @configItem.UserPrincipalName
+                                                </h3>
+                                            </div>
+                                            <div class="ms-auto">
+                                                <a class="btn btn-primary" href="/user-redirect-configs/edit/@configItem.Id" type="button">
+                                                    Edit
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <label class="fw-bold">
+                                            Redirected to:
+                                        </label>
+                                        <p>
+                                            @configItem.RedirectUserPrincipalName
+                                        </p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="d-flex justify-content-end">
+                                            <button class="btn btn-danger ms-2" data-bs-target="#delete-modal-@configItem.Id" data-bs-toggle="modal" type="button">
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <DeleteModal CallbackData="@configItem.Id" ModalId="@configItem.Id" ModalTitle="Delete redirect config" OnConfirmedCallback="@HandleRemoveUserRedirectConfigAsync">
+                                    <p>
+                                        Are you sure you want to delete the redirect config for @configItem.UserPrincipalName?
+                                    </p>
+                                </DeleteModal>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <p>
+                                No redirect configs found. 😬
+                            </p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <p>
+                            Loading...
+                        </p>
+                    </div>
+                }
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="col-12">
+                <p>
+                    You are not authorized to access this page. 😬
+                </p>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>

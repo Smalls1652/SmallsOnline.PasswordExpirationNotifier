@@ -34,6 +34,8 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib;
 [JsonSerializable(typeof(CosmosResponse))]
 [JsonSerializable(typeof(EmailIntervalDay))]
 [JsonSerializable(typeof(List<EmailIntervalDay>))]
+[JsonSerializable(typeof(UserEmailRedirectConfig))]
+[JsonSerializable(typeof(UserEmailRedirectConfig[]))]
 internal partial class JsonSourceGenerationContext : JsonSerializerContext
 {
 }

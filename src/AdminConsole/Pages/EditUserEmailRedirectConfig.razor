@@ -1,0 +1,56 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages
+@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.UserEmailRedirectConfigs
+
+@page "/user-redirect-configs/edit/{id}"
+
+@if (_userEmailRedirect is not null)
+{
+    <PageTitle>
+        Edit - @_userEmailRedirect.UserPrincipalName - User Email Redirect Configs - Password Expiration Notification Admin Console
+    </PageTitle>
+}
+else
+{
+    <PageTitle>
+        Edit - Loading... - User Email Redirect Configs - Password Expiration Notification Admin Console
+    </PageTitle>
+}
+<div class="row">
+    <div class="d-flex">
+        <div>
+            <h1>
+                User Email Redirect Configs
+            </h1>
+        </div>
+        <div class="ms-3 my-auto flex-shrink-1">
+            <a class="btn btn-primary" href="/user-redirect-configs" role="button">
+                Go back
+            </a>
+        </div>
+    </div>
+    <AuthorizeView>
+        <Authorized Context="Auth">
+            <div class="row">
+                @if (_userEmailRedirect is not null)
+                {
+                    <UserRedirectForm UserEmailRedirectConfig="_userEmailRedirect" />
+                }
+                else
+                {
+                    <div class="col-12">
+                        <p>
+                            Loading...
+                        </p>
+                    </div>
+                }
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="col-12">
+                <p>
+                    You are not authorized to access this page. 😬
+                </p>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>

@@ -17,5 +17,7 @@ public interface IConfigService
     /// </summary>
     EmailTemplateConfig[] EmailTemplateConfigs { get; }
 
+    UserEmailRedirectConfig[] UserRedirectConfigs { get; }
+
     bool AppInsightsEnabled { get; }
 }
