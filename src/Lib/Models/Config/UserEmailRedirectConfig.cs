@@ -2,7 +2,7 @@
 
 namespace SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 
-public class UserEmailRedirect : IUserEmailRedirect
+public class UserEmailRedirectConfig : IUserEmailRedirectConfig
 {
     [JsonPropertyName("id")]
     public string Id { get; set; } = null!;

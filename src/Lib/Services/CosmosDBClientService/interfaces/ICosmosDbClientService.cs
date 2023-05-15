@@ -71,8 +71,8 @@ public interface ICosmosDbClientService : IDisposable
     /// <param name="id">The ID of the user search config.</param>
     Task RemoveUserSearchConfigAsync(string id);
 
-    Task CreateOrUpdateUserRedirectConfigAsync(UserEmailRedirect userEmailRedirect);
-    Task<UserEmailRedirect> GetUserRedirectConfigAsync(string id);
-    Task<UserEmailRedirect[]?> GetUserRedirectConfigsAsync();
+    Task CreateOrUpdateUserRedirectConfigAsync(UserEmailRedirectConfig userEmailRedirectConfig);
+    Task<UserEmailRedirectConfig> GetUserRedirectConfigAsync(string id);
+    Task<UserEmailRedirectConfig[]?> GetUserRedirectConfigsAsync();
     Task RemoveUserRedirectConfigAsync(string id);
 }

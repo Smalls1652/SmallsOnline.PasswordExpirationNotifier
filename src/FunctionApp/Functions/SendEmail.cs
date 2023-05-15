@@ -84,7 +84,7 @@ public class SendEmail
             }
         }
 
-        UserEmailRedirect? redirectConfig = Array.Find(_configService.UserRedirectConfigs, config => config.UserPrincipalName == queueItem.User.UserPrincipalName);
+        UserEmailRedirectConfig? redirectConfig = Array.Find(_configService.UserRedirectConfigs, config => config.UserPrincipalName == queueItem.User.UserPrincipalName);
         string toRecipient = redirectConfig is null ? queueItem.User.UserPrincipalName : redirectConfig.RedirectUserPrincipalName!;
 
         // Create the email message.

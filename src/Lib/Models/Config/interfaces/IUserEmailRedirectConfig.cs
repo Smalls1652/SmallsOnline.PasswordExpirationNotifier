@@ -1,6 +1,6 @@
 ﻿namespace SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 
-public interface IUserEmailRedirect
+public interface IUserEmailRedirectConfig
 {
     string Id { get; set; }
     string PartitionKey { get; set; }

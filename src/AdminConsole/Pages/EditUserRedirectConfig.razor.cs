@@ -35,7 +35,7 @@ public partial class EditUserRedirectConfig : ComponentBase
     [Parameter]
     public string Id { get; set; } = null!;
 
-    private UserEmailRedirect? _userEmailRedirect;
+    private UserEmailRedirectConfig? _userEmailRedirect;
 
     protected override async Task OnInitializedAsync()
     {

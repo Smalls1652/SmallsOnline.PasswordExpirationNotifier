@@ -33,7 +33,7 @@ public class ConfigService : IConfigService
     /// <inheritdoc />
     public EmailTemplateConfig[] EmailTemplateConfigs { get; }
 
-    public UserEmailRedirect[] UserRedirectConfigs { get; }
+    public UserEmailRedirectConfig[] UserRedirectConfigs { get; }
 
     public bool AppInsightsEnabled { get; }
 }

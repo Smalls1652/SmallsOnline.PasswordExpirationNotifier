@@ -38,7 +38,7 @@ public partial class UserRedirectConfigs : ComponentBase
     [Inject]
     protected AuthenticationStateProvider _authenticationStateProvider { get; set; } = null!;
 
-    private UserEmailRedirect[]? _userEmailRedirects;
+    private UserEmailRedirectConfig[]? _userEmailRedirects;
     private JsonSourceGenerationContext _jsonSourceGenerationContext = new();
 
     private bool _loading = false;
@@ -67,7 +67,7 @@ public partial class UserRedirectConfigs : ComponentBase
     /// <summary>
     /// Handle the callback from the delete modal to remove a user redirect config.
     /// </summary>
-    /// <param name="id">The ID of the <see cref="SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config.UserEmailRedirect" />.</param>
+    /// <param name="id">The ID of the <see cref="UserEmailRedirectConfig" />.</param>
     private async Task HandleRemoveUserRedirectConfigAsync(string id)
     {
         _logger.LogWarning("Removing user search config with id: {id}", id);

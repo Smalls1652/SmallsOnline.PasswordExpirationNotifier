@@ -6,7 +6,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 public partial class CosmosDbClientService
 {
     /// <inheritdoc />
-    public async Task<UserEmailRedirect[]?> GetUserRedirectConfigsAsync()
+    public async Task<UserEmailRedirectConfig[]?> GetUserRedirectConfigsAsync()
     {
         // Get the Cosmos DB container.
         Container container = _cosmosClient.GetContainer(
@@ -36,7 +36,7 @@ public partial class CosmosDbClientService
         }
 
         // Create an array to hold the configs.
-        UserEmailRedirect[] configs = new UserEmailRedirect[totalConfigCount];
+        UserEmailRedirectConfig[] configs = new UserEmailRedirectConfig[totalConfigCount];
 
         // Define the query to get the IDs of all configs.
         QueryDefinition configIdsQuery = new("SELECT VALUE c.id FROM c WHERE c.partitionKey = 'user-redirect-config'");

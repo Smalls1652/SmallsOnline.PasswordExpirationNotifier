@@ -13,7 +13,7 @@ public partial class CosmosDbClientService
             containerId: "configs"
         );
 
-        await container.DeleteItemAsync<UserEmailRedirect>(
+        await container.DeleteItemAsync<UserEmailRedirectConfig>(
             id: id,
             partitionKey: new("user-redirect-config")
         );

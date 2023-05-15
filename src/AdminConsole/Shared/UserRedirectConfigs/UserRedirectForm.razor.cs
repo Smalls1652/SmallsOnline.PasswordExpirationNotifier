@@ -31,7 +31,7 @@ public partial class UserRedirectForm : ComponentBase
     /// The redirect config to edit.
     /// </summary>
     [Parameter]
-    public UserEmailRedirect UserEmailRedirect { get; set; } = null!;
+    public UserEmailRedirectConfig UserEmailRedirectConfig { get; set; } = null!;
 
     /// <summary>
     /// Method for handling the form submission.
@@ -41,7 +41,7 @@ public partial class UserRedirectForm : ComponentBase
         _logger.LogInformation("Updating redirect config...");
 
         // Update the redirect config in the database.
-        await _cosmosDbClientService.CreateOrUpdateUserRedirectConfigAsync(UserEmailRedirect);
+        await _cosmosDbClientService.CreateOrUpdateUserRedirectConfigAsync(UserEmailRedirectConfig);
 
         // Navigate to the user redirects page.
         _navigationManager.NavigateTo("/user-redirect-configs");

@@ -22,7 +22,7 @@ public partial class NewUserRedirectConfig : ComponentBase
     [Inject]
     protected AuthenticationStateProvider _authenticationStateProvider { get; set; } = null!;
 
-    private UserEmailRedirect? _userEmailRedirect;
+    private UserEmailRedirectConfig? _userEmailRedirect;
 
     protected override async Task OnInitializedAsync()
     {

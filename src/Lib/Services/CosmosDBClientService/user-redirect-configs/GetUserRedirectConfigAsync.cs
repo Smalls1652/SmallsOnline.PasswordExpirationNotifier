@@ -7,7 +7,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 public partial class CosmosDbClientService
 {
     /// <inheritdoc />
-    public async Task<UserEmailRedirect> GetUserRedirectConfigAsync(string id)
+    public async Task<UserEmailRedirectConfig> GetUserRedirectConfigAsync(string id)
     {
         // Get the Cosmos DB container.
         Container container = _cosmosClient.GetContainer(
@@ -22,7 +22,7 @@ public partial class CosmosDbClientService
         );
 
         // Deserialize the user search config item.
-        UserEmailRedirect configItem = JsonSerializer.Deserialize(
+        UserEmailRedirectConfig configItem = JsonSerializer.Deserialize(
             utf8Json: configItemRsp.Content,
             jsonTypeInfo: _jsonSourceGenerationContext.UserEmailRedirect
         )!;
