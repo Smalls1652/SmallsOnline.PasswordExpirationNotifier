@@ -15,14 +15,16 @@ public class ConfigService : IConfigService
         // Get the user search configs and email template configs from Cosmos DB.
         var getUserSearchConfigsTask = Task.Run(async () => await cosmosDbClientService.GetUserSearchConfigsAsync());
         var getEmailTemplateConfigsTask = Task.Run(async () => await cosmosDbClientService.GetEmailTemplateConfigsAsync());
+        var getUserRedirectConfigsTask = Task.Run(async () => await cosmosDbClientService.GetUserRedirectConfigsAsync());
 
         // Wait for the tasks to complete.
         // TODO: Look into optimizing this, so we're not using Task.WaitAll().
-        Task.WaitAll(getUserSearchConfigsTask, getEmailTemplateConfigsTask);
+        Task.WaitAll(getUserSearchConfigsTask, getEmailTemplateConfigsTask, getUserRedirectConfigsTask);
 
         // Set the properties with the results.
         UserSearchConfigs = getUserSearchConfigsTask.Result;
         EmailTemplateConfigs = getEmailTemplateConfigsTask.Result;
+        UserRedirectConfigs = getUserRedirectConfigsTask.Result;
     }
 
     /// <inheritdoc />
@@ -30,6 +32,8 @@ public class ConfigService : IConfigService
 
     /// <inheritdoc />
     public EmailTemplateConfig[] EmailTemplateConfigs { get; }
+
+    public UserEmailRedirect[] UserRedirectConfigs { get; }
 
     public bool AppInsightsEnabled { get; }
 }
