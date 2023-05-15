@@ -12,7 +12,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages;
 /// <summary>
 /// Page for listing user search configs.
 /// </summary>
-public partial class UserRedirectConfigs : ComponentBase
+public partial class UserEmailRedirectConfigs : ComponentBase
 {
     /// <summary>
     /// Dependency injected service for interacting with Cosmos DB.
@@ -30,7 +30,7 @@ public partial class UserRedirectConfigs : ComponentBase
     /// Logger for the page.
     /// </summary>
     [Inject]
-    protected ILogger<UserRedirectConfigs> _logger { get; set; } = null!;
+    protected ILogger<UserEmailRedirectConfigs> _logger { get; set; } = null!;
 
     /// <summary>
     /// Authentication state provider.

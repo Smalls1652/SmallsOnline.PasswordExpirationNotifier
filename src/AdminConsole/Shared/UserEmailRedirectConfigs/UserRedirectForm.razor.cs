@@ -2,7 +2,7 @@
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
-namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.UserRedirectConfigs;
+namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.UserEmailRedirectConfigs;
 
 /// <summary>
 /// Component for editing an user email redirect config.

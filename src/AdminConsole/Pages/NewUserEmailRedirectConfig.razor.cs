@@ -8,13 +8,13 @@ namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages;
 /// <summary>
 /// Page for creating new user search configs.
 /// </summary>
-public partial class NewUserRedirectConfig : ComponentBase
+public partial class NewUserEmailRedirectConfig : ComponentBase
 {
     /// <summary>
     /// Logger for the page.
     /// </summary>
     [Inject]
-    protected ILogger<NewUserRedirectConfig> _logger { get; set; } = null!;
+    protected ILogger<NewUserEmailRedirectConfig> _logger { get; set; } = null!;
 
     /// <summary>
     /// Authentication state provider.
