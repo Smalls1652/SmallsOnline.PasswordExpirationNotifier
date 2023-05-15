@@ -18,6 +18,24 @@ updates:
     assignees:
       - "Smalls1652"
   
+  # NuGet config for 'SmallsOnline.PasswordExpirationNotifier.AdminConsole'
+  - package-ecosystem: "nuget"
+    directory: "/src/AdminConsole"
+    target-branch: "main"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "Smalls1652"
+  
+  # NPM config for 'SmallsOnline.PasswordExpirationNotifier.AdminConsole'
+  - package-ecosystem: "npm"
+    directory: "/src/AdminConsole"
+    target-branch: "main"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "Smalls1652"
+  
   # GitHub Actions config for the repo
   - package-ecosystem: "github-actions"
     directory: "/"
