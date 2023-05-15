@@ -70,4 +70,9 @@ public interface ICosmosDbClientService : IDisposable
     /// </summary>
     /// <param name="id">The ID of the user search config.</param>
     Task RemoveUserSearchConfigAsync(string id);
+
+    Task CreateOrUpdateUserRedirectConfigAsync(UserEmailRedirect userEmailRedirect);
+    Task<UserEmailRedirect> GetUserRedirectConfigAsync(string id);
+    Task<UserEmailRedirect[]?> GetUserRedirectConfigsAsync();
+    Task RemoveUserRedirectConfigAsync(string id);
 }
