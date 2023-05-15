@@ -24,7 +24,7 @@ public partial class CosmosDbClientService
         // Deserialize the user search config item.
         UserEmailRedirectConfig configItem = JsonSerializer.Deserialize(
             utf8Json: configItemRsp.Content,
-            jsonTypeInfo: _jsonSourceGenerationContext.UserEmailRedirect
+            jsonTypeInfo: _jsonSourceGenerationContext.UserEmailRedirectConfig
         )!;
 
         return configItem;
