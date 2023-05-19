@@ -1,0 +1,86 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Users
+
+@if (_isLoaded && _userPasswordExpirationDetails is not null)
+{
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex mb-0">
+                <div>
+                    <h3>
+                        @_userPasswordExpirationDetails.User.UserPrincipalName
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="d-flex">
+                        @if (_userPasswordExpirationDetails.PasswordIsExpiringSoon)
+                        {
+                            <div class="flex-shrink-1 pe-2">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="fw-bold">
+                                            Password is expiring soon: @(!_userPasswordExpirationDetails.PasswordIsExpiringSoon ? "✅" : "❌")
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="flex-shrink-1">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="fw-bold">
+                                        Password has not expired: @(!_userPasswordExpirationDetails.PasswordIsExpired ? "✅" : "❌")
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row pt-2">
+                        <div class="col">
+                            <ul class="list-group">
+                                <li class="list-group-item">
+                                    <div class="fw-bold">
+                                        User ID:
+                                    </div>
+                                    <span class="font-monospace">
+                                        @UserData.Id
+                                    </span>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="fw-bold">
+                                        Password last set:
+                                    </div>
+                                    <span class="font-monospace">
+                                        @_userPasswordExpirationDetails.PasswordLastSetDate.ToLocalTime()
+                                    </span>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="fw-bold">
+                                        Password age:
+                                    </div>
+                                    <span class="font-monospace">
+                                        @_userPasswordExpirationDetails.PasswordLifespan.Days days @_userPasswordExpirationDetails.PasswordLifespan.Hours:@_userPasswordExpirationDetails.PasswordLifespan.Minutes:@_userPasswordExpirationDetails.PasswordLifespan.Seconds
+                                    </span>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="fw-bold">
+                                        Password will expire on:
+                                    </div>
+                                    <span class="font-monospace">
+                                        @_userPasswordExpirationDetails.PasswordExpirationDate.ToLocalTime()
+                                    </span>
+                                </li>
+                                <li class="list-group-item">
+
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
