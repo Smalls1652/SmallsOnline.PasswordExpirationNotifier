@@ -31,13 +31,13 @@
                     {
                         <div class="row">
                             <div class="col">
-                                <EditForm Model="@_selectedViewUserSettings" OnSubmit="@HandleFormSubmitAsync">
+                                <EditForm Model="@_formData" OnSubmit="@HandleFormSubmitAsync">
                                     <div class="row pt-2">
                                         <div class="col">
                                             <label class="form-label fw-bold">
                                                 User Principal Name:
                                             </label>
-                                            <InputText @bind-Value="_selectedViewUserSettings.UserPrincipalName" class="form-control" />
+                                            <InputText @bind-Value="_formData.UserPrincipalName" class="form-control" />
                                         </div>
                                     </div>
                                     <div class="row pt-2">
@@ -45,7 +45,7 @@
                                             <label class="form-label fw-bold">
                                                 Search config:
                                             </label>
-                                            <InputSelect @bind-Value="_selectedViewUserSettings.SearchConfigId" class="form-select">
+                                            <InputSelect @bind-Value="_formData.SearchConfigId" class="form-select">
                                                 <option disabled hidden selected value="">Select a template...</option>
                                                 @foreach (var searchConfig in _searchConfigs)
                                                 {

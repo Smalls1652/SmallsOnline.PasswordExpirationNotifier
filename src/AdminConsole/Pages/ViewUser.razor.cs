@@ -34,7 +34,7 @@ public partial class ViewUser : ComponentBase
     private User? _userData;
     private UserSearchConfig[]? _searchConfigs;
     private UserSearchConfig? _selectedSearchConfig;
-    private SelectedViewUserSettings? _selectedViewUserSettings;
+    private ViewUserFormData? _formData;
     private bool _userDataLoaded;
 
     private bool _userDataLoadingFailed;
@@ -44,7 +44,7 @@ public partial class ViewUser : ComponentBase
     {
         _isLoaded = false;
 
-        _selectedViewUserSettings = new();
+        _formData = new();
         _searchConfigs = await _cosmosDbClientService.GetUserSearchConfigsAsync();
 
         _isLoaded = true;
@@ -65,24 +65,24 @@ public partial class ViewUser : ComponentBase
             _userData = null;
             _selectedSearchConfig = null;
 
-            if (_selectedViewUserSettings!.UserPrincipalName is null)
+            if (_formData!.UserPrincipalName is null)
             {
                 throw new NullReferenceException("User principal name is null.");
             }
 
-            _userData = await _graphClientService.GetUserAsync(_selectedViewUserSettings.UserPrincipalName);
+            _userData = await _graphClientService.GetUserAsync(_formData.UserPrincipalName);
 
             if (_userData is null)
             {
-                throw new Exception($"Could not find user: ${_selectedViewUserSettings.UserPrincipalName}");
+                throw new Exception($"Could not find user: ${_formData.UserPrincipalName}");
             }
 
-            if (_selectedViewUserSettings.SearchConfigId is null)
+            if (_formData.SearchConfigId is null)
             {
                 throw new NullReferenceException("No search config was selected.");
             }
 
-            _selectedSearchConfig = Array.Find(_searchConfigs!, searchConfig => _selectedViewUserSettings.SearchConfigId == searchConfig.Id);
+            _selectedSearchConfig = Array.Find(_searchConfigs!, searchConfig => _formData.SearchConfigId == searchConfig.Id);
 
             _userDataLoaded = true;
         }
