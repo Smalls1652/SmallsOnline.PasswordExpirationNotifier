@@ -16,15 +16,28 @@ public partial class GraphClientService
             httpMethod: HttpMethod.Get
         );
 
-        if (apiResultString is null)
+        User user;
+        try
         {
-            throw new NullReferenceException($"No user was returned from the API for user ID '{userId}'.");
-        }
+            user = JsonSerializer.Deserialize(
+                json: apiResultString,
+                jsonTypeInfo: _jsonSourceGenerationContext.User
+            )!;
 
-        User user = JsonSerializer.Deserialize(
-            json: apiResultString,
-            jsonTypeInfo: _jsonSourceGenerationContext.User
-        )!;
+            if (string.IsNullOrEmpty(user.Id))
+            {
+                throw new Exception("User ID is null or empty.");
+            }
+        }
+        catch
+        {
+            GraphErrorResponse? errorResponse = JsonSerializer.Deserialize(
+                json: apiResultString,
+                jsonTypeInfo: _jsonSourceGenerationContext.GraphErrorResponse
+            );
+
+            throw new Exception(errorResponse!.Error!.Message);
+        }
 
         return user;
     }
