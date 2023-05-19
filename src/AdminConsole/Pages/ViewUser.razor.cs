@@ -7,14 +7,26 @@ using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages;
 
+/// <summary>
+/// Page for viewing a user's password expiration details.
+/// </summary>
 public partial class ViewUser : ComponentBase
 {
+    /// <summary>
+    /// Dependency injected service for interacting with Cosmos DB.
+    /// </summary>
     [Inject]
     protected ICosmosDbClientService _cosmosDbClientService { get; set; } = null!;
 
+    /// <summary>
+    /// Dependency injected service for interacting with the Microsoft Graph API.
+    /// </summary>
     [Inject]
     protected IGraphClientService _graphClientService { get; set; } = null!;
 
+    /// <summary>
+    /// Logger for the page.
+    /// </summary>
     [Inject]
     protected ILogger<ViewUser> _logger { get; set; } = null!;
 
@@ -38,6 +50,11 @@ public partial class ViewUser : ComponentBase
         _isLoaded = true;
     }
 
+    /// <summary>
+    /// Method for handling the form submit event.
+    /// </summary>
+    /// <exception cref="NullReferenceException"></exception>
+    /// <exception cref="Exception"></exception>
     private async Task HandleFormSubmitAsync()
     {
         try

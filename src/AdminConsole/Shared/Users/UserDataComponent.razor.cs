@@ -6,11 +6,20 @@ using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Users;
 
+/// <summary>
+/// Component for displaying user data.
+/// </summary>
 public partial class UserDataComponent : ComponentBase
 {
+    /// <summary>
+    /// The user data, from the Graph API, to display.
+    /// </summary>
     [Parameter]
     public User UserData { get; set; } = null!;
 
+    /// <summary>
+    /// The user search configuration for parsing password expiration details.
+    /// </summary>
     [Parameter]
     public UserSearchConfig UserSearchConfig { get; set; } = null!;
 
