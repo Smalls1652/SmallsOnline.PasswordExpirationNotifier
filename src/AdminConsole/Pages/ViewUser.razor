@@ -1,0 +1,108 @@
+﻿@namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages
+@page "/view-user"
+
+@using SmallsOnline.PasswordExpirationNotifier.AdminConsole.Shared.Users
+
+<PageTitle>
+    View User - Password Expiration Notification Admin Console
+</PageTitle>
+<div class="row">
+    <div class="d-flex">
+        <div>
+            <h1>
+                View User
+            </h1>
+        </div>
+    </div>
+    <AuthorizeView>
+        <Authorized Context="auth">
+            <div class="row">
+                @if (_isLoaded == true)
+                {
+                    @if (_searchConfigs is null)
+                    {
+                        <div class="col">
+                            <p>
+                                No search configurations found. Please add a search configuration.
+                            </p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col">
+                                <EditForm Model="@_formData" OnSubmit="@HandleFormSubmitAsync">
+                                    <div class="row pt-2">
+                                        <div class="col">
+                                            <label class="form-label fw-bold">
+                                                User Principal Name:
+                                            </label>
+                                            <InputText @bind-Value="_formData.UserPrincipalName" class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="row pt-2">
+                                        <div class="col">
+                                            <label class="form-label fw-bold">
+                                                Search config:
+                                            </label>
+                                            <InputSelect @bind-Value="_formData.SearchConfigId" class="form-select">
+                                                <option disabled hidden selected value="">Select a template...</option>
+                                                @foreach (var searchConfig in _searchConfigs)
+                                                {
+                                                    <option value="@searchConfig.Id">
+                                                        @searchConfig.ConfigName
+                                                    </option>
+                                                }
+                                            </InputSelect>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-2">
+                                        <button class="btn btn-primary" type="submit">
+                                            View
+                                        </button>
+                                    </div>
+                                </EditForm>
+                            </div>
+                        </div>
+                        @if (_userData is not null && _userDataLoaded && !_userDataLoadingFailed)
+                        {
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <UserDataComponent UserData="_userData" UserSearchConfig="_selectedSearchConfig" />
+                                </div>
+                            </div>
+                        }
+                        @if (_userDataLoadingFailed)
+                        {
+                            <div class="row pt-2">
+                                <div class="col">
+                                    <p>
+                                        ⚠️ An error occurred while loading the user data:
+                                    </p>
+                                    <p>
+                                        @_userDataLoadingFailedMessage
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+                else
+                {
+                    <div class="col-12">
+                        <p>
+                            Loading...
+                        </p>
+                    </div>
+                }
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="col-12">
+                <p>
+                    You are not authorized to access this page. 😬
+                </p>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
