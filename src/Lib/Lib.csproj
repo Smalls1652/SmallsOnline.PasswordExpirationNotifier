@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <Import Project="../../SmallsOnline.PasswordExpirationNotifier.props" />
+  <Import Project="../../SmallsOnline.PasswordExpirationNotifier.sln.props" />
   
   <PropertyGroup>
     <AssemblyName>SmallsOnline.PasswordExpirationNotifier.Lib</AssemblyName>
