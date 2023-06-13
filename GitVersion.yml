@@ -1,8 +1,6 @@
 assembly-versioning-scheme: MajorMinorPatch
 mode: ContinuousDelivery
-branches:
-  main:
-    is-release-branch: true
+branches: {}
 ignore:
   sha: []
 merge-message-formats: {}
