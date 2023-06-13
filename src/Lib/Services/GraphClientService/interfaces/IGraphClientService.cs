@@ -37,5 +37,5 @@ public interface IGraphClientService
     /// <param name="message">The message to send.</param>
     /// <param name="sendAsUser">The user principal name of the user to send the email as.</param>
     /// <exception cref="Exception"></exception>
-    Task SendEmailAsync(MailMessage message, string sendAsUser);
+    Task SendEmailAsync(Message message, string sendAsUser);
 }
