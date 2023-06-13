@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
-    <Import Project="../../SmallsOnline.PasswordExpirationNotifier.props" />
+    <Import Project="../../SmallsOnline.PasswordExpirationNotifier.sln.props" />
 
     <PropertyGroup>
         <AssemblyName>SmallsOnline.PasswordExpirationNotifier.AdminConsole</AssemblyName>
