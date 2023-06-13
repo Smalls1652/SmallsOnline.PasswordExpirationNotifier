@@ -1,0 +1,33 @@
+﻿name: Create tagged release
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Tag name"
+        required: true
+        type: string
+      is_prerelease:
+        description: "Whether the release is a pre-release"
+        type: boolean
+        default: false
+
+jobs:
+  create-tag:
+    name: Create and push tag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Create tag
+        run: |
+          git tag --message "Tagged release for ${{ inputs.tag_name }}" ${{ inputs.tag_name }}
+
+      - name: Push tag
+        run: |
+          git push origin ${{ inputs.tag_name }}
