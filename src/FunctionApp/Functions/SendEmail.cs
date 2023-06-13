@@ -88,21 +88,18 @@ public class SendEmail
         string toRecipient = redirectConfig is null ? queueItem.User.UserPrincipalName : redirectConfig.RedirectUserPrincipalName!;
 
         // Create the email message.
-        MailMessage emailMessage = new(
-            message: new(
-                subject: $"Alert: Password Expiration Notice ({Math.Round(queueItem.PasswordExpiresIn.TotalDays, 0)} days)",
-                body: new(emailBody, "HTML"),
-                toRecipient: new Recipient[]
-                {
-                    new(toRecipient, null)
-                },
-                attachments: fileAttachments
-            )
+        Message emailMessage = new(
+            subject: $"Alert: Password Expiration Notice ({Math.Round(queueItem.PasswordExpiresIn.TotalDays, 0)} days)",
+            body: new(emailBody, "HTML"),
+            toRecipient: new Recipient[]
             {
-                CcRecipient = new Recipient[] { }
+                new(toRecipient, null)
             },
-            saveToSentItems: false
-        );
+            attachments: fileAttachments
+        )
+        {
+            CcRecipient = new Recipient[] { }
+        };
 
         if (!userSearchConfigItem.DoNotSendEmails)
         {

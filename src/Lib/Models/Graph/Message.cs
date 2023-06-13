@@ -30,6 +30,9 @@ public class Message : IMessage
         }
     }
 
+    [JsonPropertyName("id")]
+    public string? Id { get; set; }
+
     /// <inheritdoc />
     [JsonPropertyName("subject")]
     public string Subject { get; set; } = null!;

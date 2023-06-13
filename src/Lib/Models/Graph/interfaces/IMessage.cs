@@ -6,6 +6,11 @@
 public interface IMessage
 {
     /// <summary>
+    /// The unique identifier for the message.
+    /// </summary>
+    string? Id { get; set; }
+
+    /// <summary>
     /// The subject of the message.
     /// </summary>
     string Subject { get; set; }
