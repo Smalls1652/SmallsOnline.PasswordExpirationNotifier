@@ -8,7 +8,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 public interface IGraphClientService
 {
     /// <summary>
-    /// The underlying <see cref="SmallsOnline.MsGraphClient.Models.GraphClient"/> instance.
+    /// The underlying <see cref="HttpClient"/> for making the API calls.
     /// </summary>
     HttpClient GraphClient { get; }
 
