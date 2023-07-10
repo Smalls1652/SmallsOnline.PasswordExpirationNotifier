@@ -36,10 +36,15 @@ public partial class CosmosDbClientService
             // Get each included attachment from Cosmos DB.
             for (int i = 0; i < templateItem.IncludedAttachmentIds.Length; i++)
             {
-                EmailTemplateAttachmentItem attachmentItem = await container.ReadItemAsync<EmailTemplateAttachmentItem>(
+                ResponseMessage attachmentItemResponse = await container.ReadItemStreamAsync(
                     id: templateItem.IncludedAttachmentIds[i],
                     partitionKey: new("email-template-attachment-item")
                 );
+
+                EmailTemplateAttachmentItem attachmentItem = JsonSerializer.Deserialize(
+                    utf8Json: attachmentItemResponse.Content,
+                    jsonTypeInfo: _jsonSourceGenerationContext.EmailTemplateAttachmentItem
+                )!;
 
                 includedAttachments[i] = attachmentItem;
             }

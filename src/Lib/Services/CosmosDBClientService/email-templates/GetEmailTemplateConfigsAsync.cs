@@ -1,4 +1,6 @@
-﻿using Microsoft.Azure.Cosmos;
+﻿using System.Text.Json;
+using Microsoft.Azure.Cosmos;
+using SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 
 namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
@@ -14,20 +16,8 @@ public partial class CosmosDbClientService
             containerId: "configs"
         );
 
-        // Define the query to get the total number of configs.
-        QueryDefinition countQuery = new("SELECT VALUE COUNT(1) FROM c WHERE c.partitionKey = 'email-template-config'");
-
         // Get the total number of configs.
-        int totalConfigCount = 0;
-        FeedResponse<int> countQueryResponse = await container.GetItemQueryIterator<int>(
-                queryDefinition: countQuery,
-                requestOptions: new()
-                {
-                    MaxItemCount = 1
-                }
-            )
-            .ReadNextAsync();
-        totalConfigCount = countQueryResponse.FirstOrDefault();
+        int totalConfigCount = await GetTotalItemCountAsync("email-template-config");
 
         // If no configs were found, throw an exception.
         if (totalConfigCount == 0)
@@ -36,27 +26,36 @@ public partial class CosmosDbClientService
         }
 
         // Create an array to hold the configs.
-        EmailTemplateConfig[] emailTemplateConfigs = new EmailTemplateConfig[totalConfigCount];
+        EmailTemplateConfig[] configs = new EmailTemplateConfig[totalConfigCount];
 
         // Define the query to get the IDs of all configs.
-        QueryDefinition configIdsQuery = new("SELECT VALUE c.id FROM c WHERE c.partitionKey = 'email-template-config'");
+        QueryDefinition configsQuery = new("SELECT * FROM c");
 
-        // Get the IDs of all configs and get each config.
-        // Note: We're using a FeedIterator<string> here because we're only getting the IDs of the configs,
-        // which is then passed to GetEmailTemplateConfigAsync to get the full config. This is done to
-        // utilize source generated JSON deserialization when getting the data from Cosmos DB, since
-        // the Cosmos DB SDK doesn't support source generated JSON deserialization yet.
-        using FeedIterator<string> configsIterator = container.GetItemQueryIterator<string>(configIdsQuery);
-        while (configsIterator.HasMoreResults)
-        {
-            int i = 0;
-            foreach (var item in await configsIterator.ReadNextAsync())
+        using FeedIterator feedIterator = container.GetItemQueryStreamIterator(
+            queryDefinition: configsQuery,
+            requestOptions: new()
             {
-                emailTemplateConfigs[i] = await GetEmailTemplateConfigAsync(item);
+                PartitionKey = new("email-template-config")
+            }
+        );
+
+        int i = 0;
+        while (feedIterator.HasMoreResults)
+        {
+            using ResponseMessage response = await feedIterator.ReadNextAsync();
+            using StreamReader streamReader = new(response.Content);
+            CosmosDbResponse<EmailTemplateConfig>? configsResponse = await JsonSerializer.DeserializeAsync(
+                utf8Json: streamReader.BaseStream,
+                jsonTypeInfo: _jsonSourceGenerationContext.CosmosDbResponseEmailTemplateConfig
+            );
+
+            foreach (EmailTemplateConfig config in configsResponse!.Documents!)
+            {
+                configs[i] = config;
                 i++;
             }
         }
 
-        return emailTemplateConfigs;
+        return configs;
     }
 }

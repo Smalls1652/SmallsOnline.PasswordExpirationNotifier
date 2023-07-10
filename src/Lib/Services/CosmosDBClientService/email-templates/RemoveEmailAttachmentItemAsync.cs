@@ -16,7 +16,7 @@ public partial class CosmosDbClientService
 
         try
         {
-            await container.DeleteItemAsync<EmailTemplateAttachmentItem>(
+            await container.DeleteItemStreamAsync(
                 id: id,
                 partitionKey: new("email-template-attachment-item")
             );

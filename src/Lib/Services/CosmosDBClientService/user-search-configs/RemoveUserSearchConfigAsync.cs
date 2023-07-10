@@ -13,7 +13,7 @@ public partial class CosmosDbClientService
             containerId: "configs"
         );
 
-        await container.DeleteItemAsync<UserSearchConfig>(
+        await container.DeleteItemStreamAsync(
             id: id,
             partitionKey: new("user-search-config")
         );
