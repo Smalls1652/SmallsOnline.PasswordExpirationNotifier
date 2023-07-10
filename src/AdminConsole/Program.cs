@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,9 +46,19 @@ builder.Services
 builder.Services
     .AddSingleton<IGraphClientService, GraphClientService>(
         provider => new(
-            clientId: builder.Configuration.GetSection("backendClientID").Value!,
-            clientSecret: builder.Configuration.GetSection("backendClientSecret").Value!,
-            tenantId: builder.Configuration.GetSection("backendTenantId").Value!
+            config: new()
+            {
+                ClientId = builder.Configuration.GetSection("backendClientId").Value!,
+                TenantId = builder.Configuration.GetSection("backendTenantId").Value!,
+                Credential = new GraphClientCredential(
+                    credentialType: GraphClientCredentialType.ClientSecret,
+                    clientSecret: builder.Configuration.GetSection("backendClientSecret").Value!
+                ),
+                ApiScopes = new[]
+                {
+                    "https://graph.microsoft.com/.default"
+                }
+            }
         )
     );
 
