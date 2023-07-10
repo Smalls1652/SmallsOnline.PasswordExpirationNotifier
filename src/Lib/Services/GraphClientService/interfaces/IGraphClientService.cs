@@ -1,5 +1,4 @@
-﻿using SmallsOnline.MsGraphClient.Models;
-using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
+﻿using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
 
 namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
@@ -11,7 +10,7 @@ public interface IGraphClientService
     /// <summary>
     /// The underlying <see cref="SmallsOnline.MsGraphClient.Models.GraphClient"/> instance.
     /// </summary>
-    GraphClient GraphClient { get; }
+    HttpClient GraphClient { get; }
 
     /// <summary>
     /// Get user information from the Microsoft Graph API.
