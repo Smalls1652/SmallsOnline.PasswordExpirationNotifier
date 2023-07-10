@@ -6,7 +6,13 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class GraphClientService
 {
-    private async Task<string?> SendApiCallAsync(string endpoint, HttpMethod httpMethod) => await SendApiCallAsync(endpoint, httpMethod, null);
+    /// <summary>
+    /// Send an API call to the Graph API.
+    /// </summary>
+    /// <param name="endpoint">The endpoint to call.</param>
+    /// <param name="httpMethod">The HTTP method to use.</param>
+    /// <param name="body">Contents to use in the body of the API call.</param>
+    /// <returns>If any, the response from the Graph API in string form.</returns>
     private async Task<string?> SendApiCallAsync(string endpoint, HttpMethod httpMethod, string? body)
     {
         await ConnectAsync();
@@ -56,4 +62,12 @@ public partial class GraphClientService
 
         return content;
     }
+
+    /// <summary>
+    /// Send an API call to the Graph API.
+    /// </summary>
+    /// <param name="endpoint">The endpoint to call.</param>
+    /// <param name="httpMethod">The HTTP method to use.</param>
+    /// <returns>If any, the response from the Graph API in string form.</returns>
+    private async Task<string?> SendApiCallAsync(string endpoint, HttpMethod httpMethod) => await SendApiCallAsync(endpoint, httpMethod, null);
 }
