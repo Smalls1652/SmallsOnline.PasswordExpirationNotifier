@@ -26,7 +26,7 @@ public partial class CosmosDbClientService
         }
 
         // Remove the email template config.
-        await container.DeleteItemAsync<EmailTemplateConfig>(
+        await container.DeleteItemStreamAsync(
             id: id,
             partitionKey: new("email-template-config")
         );
