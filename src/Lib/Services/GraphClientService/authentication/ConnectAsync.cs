@@ -2,7 +2,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class GraphClientService
 {
-    public async Task ConnectAsync()
+    private async Task ConnectAsync()
     {
         bool needsToConnect = !_isConnected;
 
