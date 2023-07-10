@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Cosmos;
+﻿using System.Text.Json;
+using Microsoft.Azure.Cosmos;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 
 namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
@@ -15,19 +16,26 @@ public partial class CosmosDbClientService
 
         foreach (var attachmentItem in attachmentItems)
         {
+            using MemoryStream streamPayload = new();
+            await JsonSerializer.SerializeAsync(
+                utf8Json: streamPayload,
+                value: attachmentItem,
+                jsonTypeInfo: _jsonSourceGenerationContext.EmailTemplateAttachmentItem
+            );
+
             try
             {
                 // Try to create the item.
-                await container.CreateItemAsync(
-                    item: attachmentItem,
+                await container.CreateItemStreamAsync(
+                    streamPayload: streamPayload,
                     partitionKey: new(attachmentItem.PartitionKey)
                 );
             }
             catch
             {
                 // If it already exists, replace it.
-                await container.ReplaceItemAsync(
-                    item: attachmentItem,
+                await container.ReplaceItemStreamAsync(
+                    streamPayload: streamPayload,
                     id: attachmentItem.Id,
                     partitionKey: new(attachmentItem.PartitionKey)
                 );
