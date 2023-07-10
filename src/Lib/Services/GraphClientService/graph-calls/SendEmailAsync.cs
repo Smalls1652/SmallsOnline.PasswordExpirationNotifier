@@ -17,10 +17,10 @@ public partial class GraphClientService
         try
         {
             // Create a draft message.
-            string? draftResponse = await _graphClient.SendApiCallAsync(
+            string? draftResponse = await SendApiCallAsync(
                 endpoint: $"users/{sendAsUser}/messages",
-                apiPostBody: messageJson,
-                httpMethod: HttpMethod.Post
+                httpMethod: HttpMethod.Post,
+                body: messageJson
             );
 
             Message draftItem = JsonSerializer.Deserialize(
@@ -29,16 +29,14 @@ public partial class GraphClientService
             )!;
 
             // Send the draft message.
-            await _graphClient.SendApiCallAsync(
+            await SendApiCallAsync(
                 endpoint: $"users/{sendAsUser}/messages/{draftItem.Id!}/send",
-                apiPostBody: null,
                 httpMethod: HttpMethod.Post
             );
 
             // Delete the draft message.
-            await _graphClient.SendApiCallAsync(
+            await SendApiCallAsync(
                 endpoint: $"users/{sendAsUser}/messages/{draftItem.Id!}",
-                apiPostBody: null,
                 httpMethod: HttpMethod.Delete
             );
 

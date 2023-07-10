@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-using SmallsOnline.MsGraphClient.Models;
+using Microsoft.Identity.Client;
+using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
 
 namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
@@ -8,7 +9,9 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 /// </summary>
 public partial class GraphClientService : IGraphClientService
 {
-    private readonly GraphClient _graphClient;
+    private readonly IEnumerable<string> _apiScopes;
+    private readonly HttpClient _graphClient;
+    private readonly IConfidentialClientApplication _confidentialClientApplication;
     private readonly JsonSourceGenerationContext _jsonSourceGenerationContext = new();
     private readonly string[] _graphUserProps = new[]
     {
@@ -22,22 +25,28 @@ public partial class GraphClientService : IGraphClientService
         "onPremisesDistinguishedName"
     };
 
-    public GraphClientService(string clientId, string tenantId, string clientSecret)
+    public GraphClientService(GraphClientConfig config)
     {
-        _graphClient = new(
-            baseUri: new("https://graph.microsoft.com/beta/"),
-            clientId: clientId,
-            tenantId: tenantId,
-            credentialType: GraphClientCredentialType.Secret,
-            clientSecret: clientSecret,
-            apiScopes: new ApiScopesConfig(new[] { "https://graph.microsoft.com/.default" })
-        );
+        _apiScopes = config.ApiScopes;
 
-        _graphClient.ConnectClient();
+        _confidentialClientApplication = ConfidentialClientApplicationBuilder
+            .Create(config.ClientId)
+            .WithTenantId(config.TenantId)
+            .WithClientSecret(config.Credential.ClientSecret!)
+            .Build();
+
+        _graphClient = new()
+        {
+            BaseAddress = new Uri("https://graph.microsoft.com/beta/")
+        };
+        _graphClient.DefaultRequestHeaders.Add("ConsistencyLevel", "eventual");
     }
 
     /// <inheritdoc />
-    public GraphClient GraphClient => _graphClient;
+    public HttpClient GraphClient => _graphClient;
+
+    private bool _isConnected => _authToken is not null;
+    private AuthenticationResult? _authToken;
 
     [GeneratedRegex("^https:\\/\\/graph.microsoft.com\\/(?'version'v1\\.0|beta)\\/(?'endpoint'.+?)$")]
     private partial Regex _nextLinkRegex();

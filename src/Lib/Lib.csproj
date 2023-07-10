@@ -24,9 +24,7 @@
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.35.1">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="SmallsOnline.MsGraphClient" Version="2022.8.0-beta04">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.54.1" />
   </ItemGroup>
 
 </Project>

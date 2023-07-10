@@ -28,9 +28,8 @@ public partial class GraphClientService
             apiEndpoint ??= $"users?$select={string.Join(",", _graphUserProps)}&$filter={queryFilter}&$count=true";
 
             // Call the API to get the users.
-            string? apiResultString = await _graphClient.SendApiCallAsync(
+            string? apiResultString = await SendApiCallAsync(
                 endpoint: apiEndpoint!,
-                apiPostBody: null,
                 httpMethod: HttpMethod.Get
             );
 
