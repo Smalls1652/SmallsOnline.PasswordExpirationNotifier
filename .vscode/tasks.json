@@ -1,0 +1,179 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Project: Build",
+            "detail": "Select a project and build it.",
+            "icon": {
+                "id": "file-code"
+            },
+            "group": "build",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/${input:dotnetProject}",
+                "--configuration",
+                "${input:dotnetConfig}",
+                "/property:GenerateFullPaths=true"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "Project: Publish",
+            "detail": "Select a project and publish it.",
+            "icon": {
+                "id": "layers-dot"
+            },
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "publish",
+                "${workspaceFolder}/${input:dotnetProject}",
+                "--configuration",
+                "${input:dotnetConfig}",
+                "/property:GenerateFullPaths=true"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "Project: Restore",
+            "detail": "Select a project and restore it's dependencies.",
+            "icon": {
+                "id": "refresh"
+            },
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "restore",
+                "${workspaceFolder}/${input:dotnetProject}"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "Watch: AdminConsole",
+            "detail": "Run the AdminConsole in a watch configuration.",
+            "icon": {
+                "id": "eye-watch"
+            },
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "watch",
+                "--project",
+                "${workspaceFolder}/src/AdminConsole/AdminConsole.csproj",
+                "--",
+                "run",
+                "--configuration",
+                "${input:dotnetConfig}"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "Start Azurite",
+            "detail": "Start the Azure Storage Account emulator.",
+            "icon": {
+                "id": "symbol-folder"
+            },
+            "type": "process",
+            "windows": {
+                "command": "wsl",
+                "args": [
+                    "--",
+                    "docker",
+                    "run",
+                    "--rm",
+                    "--publish",
+                    "10000:10000",
+                    "--publish",
+                    "10001:10001",
+                    "--publish",
+                    "10002:10002",
+                    "mcr.microsoft.com/azure-storage/azurite:latest"
+                ],
+                "options": {
+                    "shell": {
+                        "executable": "pwsh",
+                        "args": [
+                            "-Login",
+                            "-NoProfile",
+                            "-NoLogo"
+                        ],
+                    }
+                }
+            },
+            "runOptions": {
+                "instanceLimit": 1
+            },
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "dotnetConfig",
+            "description": "The config type to use when building.",
+            "type": "pickString",
+            "options": [
+                "Debug",
+                "Release"
+            ],
+            "default": "Debug"
+        },
+        {
+            "id": "dotnetProject",
+            "description": "The project to build.",
+            "type": "pickString",
+            "options": [
+                {
+                    "label": "Solution (All)",
+                    "value": "SmallsOnline.PasswordExpirationNotifier.sln"
+                },
+                {
+                    "label": "AdminConsole",
+                    "value": "src/AdminConsole/AdminConsole.csproj"
+                },
+                {
+                    "label": "FunctionApp",
+                    "value": "src/FunctionApp/FunctionApp.csproj"
+                },
+                {
+                    "label": "Lib",
+                    "value": "src/Lib/Lib.csproj"
+                }
+            ],
+            "default": "Solution (All)"
+        }
+    ]
+}
