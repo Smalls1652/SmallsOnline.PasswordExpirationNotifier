@@ -5,7 +5,7 @@ namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 public partial class GraphClientService
 {
-    public async Task<AuthenticationResult> GetAuthTokenAsync()
+    private async Task<AuthenticationResult> GetAuthTokenAsync()
     {
         AuthenticationResult? authToken = await _confidentialClientApplication
             .AcquireTokenForClient(_apiScopes)
