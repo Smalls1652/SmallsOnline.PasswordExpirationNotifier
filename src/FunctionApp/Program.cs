@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SmallsOnline.PasswordExpirationNotifier.FunctionApp;
 using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
+using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 IHostBuilder hostBuilder = new HostBuilder()
@@ -20,9 +21,19 @@ IHostBuilder hostBuilder = new HostBuilder()
         {
             services.AddSingleton<IGraphClientService, GraphClientService>(
                 provider => new GraphClientService(
-                    clientId: AppSettingsHelper.GetSettingValue("clientId")!,
-                    clientSecret: AppSettingsHelper.GetSettingValue("clientSecret")!,
-                    tenantId: AppSettingsHelper.GetSettingValue("tenantId")!
+                    config: new()
+                    {
+                        ClientId = AppSettingsHelper.GetSettingValue("clientId")!,
+                        TenantId = AppSettingsHelper.GetSettingValue("tenantId")!,
+                        Credential = new GraphClientCredential(
+                            credentialType: GraphClientCredentialType.ClientSecret,
+                            clientSecret: AppSettingsHelper.GetSettingValue("clientSecret")!
+                        ),
+                        ApiScopes = new[]
+                        {
+                            "https://graph.microsoft.com/.default"
+                        }
+                    }
                 )
             );
 
