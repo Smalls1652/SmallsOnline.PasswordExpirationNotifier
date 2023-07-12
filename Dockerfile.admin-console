@@ -7,7 +7,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash -; \
     apt-get update; \
     apt-get install -y nodejs python3
 
-RUN curl -qL https://www.npmjs.com/install.sh | sh
+RUN npm install -g npm
 RUN dotnet tool install --global PowerShell
 
 WORKDIR /app
