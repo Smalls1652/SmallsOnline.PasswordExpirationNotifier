@@ -11,7 +11,7 @@ public partial class GraphClientService
         // Serialize the message to JSON.
         string messageJson = JsonSerializer.Serialize(
             value: message,
-            jsonTypeInfo: _jsonSourceGenerationContext.Message
+            jsonTypeInfo: JsonSourceGenerationContext.Default.Message
         );
 
         try
@@ -25,7 +25,7 @@ public partial class GraphClientService
 
             Message draftItem = JsonSerializer.Deserialize(
                 json: draftResponse!,
-                jsonTypeInfo: _jsonSourceGenerationContext.Message
+                jsonTypeInfo: JsonSourceGenerationContext.Default.Message
             )!;
 
             // Send the draft message.
