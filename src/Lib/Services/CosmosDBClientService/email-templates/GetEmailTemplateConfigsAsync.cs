@@ -46,7 +46,7 @@ public partial class CosmosDbClientService
             using StreamReader streamReader = new(response.Content);
             CosmosDbResponse<EmailTemplateConfig>? configsResponse = await JsonSerializer.DeserializeAsync(
                 utf8Json: streamReader.BaseStream,
-                jsonTypeInfo: _jsonSourceGenerationContext.CosmosDbResponseEmailTemplateConfig
+                jsonTypeInfo: CosmosDbJsonContext.Default.CosmosDbResponseEmailTemplateConfig
             );
 
             foreach (EmailTemplateConfig config in configsResponse!.Documents!)

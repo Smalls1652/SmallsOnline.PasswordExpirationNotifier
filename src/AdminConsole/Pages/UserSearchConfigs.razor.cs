@@ -39,7 +39,6 @@ public partial class UserSearchConfigs : ComponentBase
     protected AuthenticationStateProvider _authenticationStateProvider { get; set; } = null!;
 
     private UserSearchConfig[]? _userSearchConfigs;
-    private JsonSourceGenerationContext _jsonSourceGenerationContext = new();
 
     private bool _loading = false;
 
@@ -100,7 +99,7 @@ public partial class UserSearchConfigs : ComponentBase
                         EmailTemplateId = configItem.EmailTemplateId!,
                         CorrelationId = correlationId
                     },
-                    jsonTypeInfo: _jsonSourceGenerationContext.UserSearchQueueItem
+                    jsonTypeInfo: QueueJsonContext.Default.UserSearchQueueItem
                 )
             );
         }

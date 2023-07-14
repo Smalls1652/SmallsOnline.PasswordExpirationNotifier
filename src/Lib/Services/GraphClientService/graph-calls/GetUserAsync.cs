@@ -25,7 +25,7 @@ public partial class GraphClientService
         {
             user = JsonSerializer.Deserialize(
                 json: apiResultString,
-                jsonTypeInfo: _jsonSourceGenerationContext.User
+                jsonTypeInfo: GraphJsonContext.Default.User
             )!;
 
             if (string.IsNullOrEmpty(user.Id))
@@ -37,7 +37,7 @@ public partial class GraphClientService
         {
             GraphErrorResponse? errorResponse = JsonSerializer.Deserialize(
                 json: apiResultString,
-                jsonTypeInfo: _jsonSourceGenerationContext.GraphErrorResponse
+                jsonTypeInfo: GraphJsonContext.Default.GraphErrorResponse
             );
 
             throw new Exception(errorResponse!.Error!.Message);

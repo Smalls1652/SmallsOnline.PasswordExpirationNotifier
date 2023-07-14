@@ -18,7 +18,7 @@ public partial class CosmosDbClientService
         await JsonSerializer.SerializeAsync(
             utf8Json: streamPayload,
             value: userSearchConfig,
-            jsonTypeInfo: _jsonSourceGenerationContext.UserSearchConfig
+            jsonTypeInfo: CosmosDbJsonContext.Default.UserSearchConfig
         );
 
         try

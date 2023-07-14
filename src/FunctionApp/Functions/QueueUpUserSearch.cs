@@ -19,7 +19,6 @@ public class QueueUpUserSearch
     private readonly IConfigService _configService;
     private readonly ICosmosDbClientService _cosmosDbClientService;
     private readonly IQueueClientService _queueClientService;
-    private readonly JsonSourceGenerationContext _jsonSourceGenerationContext = new();
 
     public QueueUpUserSearch(TelemetryClient telemetryClient, ILogger<QueueUpUserSearch> logger, IConfigService configService, ICosmosDbClientService cosmosDbClientService, IQueueClientService queueClientService)
     {
@@ -74,7 +73,7 @@ public class QueueUpUserSearch
                             EmailTemplateId = configItem.EmailTemplateId!,
                             CorrelationId = correlationId
                         },
-                        jsonTypeInfo: _jsonSourceGenerationContext.UserSearchQueueItem
+                        jsonTypeInfo: QueueJsonContext.Default.UserSearchQueueItem
                     )
                 );
             }

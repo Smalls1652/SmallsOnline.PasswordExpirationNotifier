@@ -20,7 +20,7 @@ public partial class CosmosDbClientService
             await JsonSerializer.SerializeAsync(
                 utf8Json: streamPayload,
                 value: attachmentItem,
-                jsonTypeInfo: _jsonSourceGenerationContext.EmailTemplateAttachmentItem
+                jsonTypeInfo: CosmosDbJsonContext.Default.EmailTemplateAttachmentItem
             );
 
             try

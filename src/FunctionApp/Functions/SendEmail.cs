@@ -17,7 +17,6 @@ public class SendEmail
     private readonly ICosmosDbClientService _cosmosDbClientService;
     private readonly IGraphClientService _graphClientService;
     private readonly IConfigService _configService;
-    private readonly JsonSourceGenerationContext _jsonSourceGenerationContext = new();
     private readonly TelemetryClient _telemetryClient;
 
     public SendEmail(ICosmosDbClientService cosmosDbClientService, IGraphClientService graphClientService, IConfigService configService, TelemetryClient telemetryClient)
@@ -37,7 +36,7 @@ public class SendEmail
         // Deserialize the queue item.
         UserPasswordExpirationDetails queueItem = JsonSerializer.Deserialize(
             json: queueItemContents,
-            jsonTypeInfo: _jsonSourceGenerationContext.UserPasswordExpirationDetails
+            jsonTypeInfo: QueueJsonContext.Default.UserPasswordExpirationDetails
         )!;
 
         LoggingHelper.LogInformation(_configService.AppInsightsEnabled ? _telemetryClient : logger, "Processing queue item for '{0}'.", queueItem.CorrelationId, executionContext, queueItem.User.UserPrincipalName);
@@ -58,7 +57,6 @@ public class SendEmail
 
         // Convert the expiration date to a specific timezone.
         // TODO: Make this configurable.
-
         DateTimeOffset expirationTimeToTimezone = userSearchConfigItem.DefaultTimeZone is not null
             ? TimeZoneInfo.ConvertTime(queueItem.PasswordExpirationDate, TimeZoneInfo.FindSystemTimeZoneById(userSearchConfigItem.DefaultTimeZone))
             : queueItem.PasswordExpirationDate;

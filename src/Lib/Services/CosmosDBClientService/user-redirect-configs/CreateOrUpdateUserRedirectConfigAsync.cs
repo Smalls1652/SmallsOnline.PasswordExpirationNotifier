@@ -19,7 +19,7 @@ public partial class CosmosDbClientService
         await JsonSerializer.SerializeAsync(
             utf8Json: streamPayload,
             value: userEmailRedirectConfig,
-            jsonTypeInfo: _jsonSourceGenerationContext.UserEmailRedirectConfig
+            jsonTypeInfo: CosmosDbJsonContext.Default.UserEmailRedirectConfig
         );
 
         try
