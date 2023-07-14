@@ -42,7 +42,7 @@ public partial class GraphClientService
             // Deserialize the JSON into a UserCollection object.
             UserCollection userCollection = JsonSerializer.Deserialize(
                 json: apiResultString,
-                jsonTypeInfo: _jsonSourceGenerationContext.UserCollection
+                jsonTypeInfo: GraphJsonContext.Default.UserCollection
             )!;
 
             // If users is null, then this is the first iteration of the loop.

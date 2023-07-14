@@ -45,7 +45,7 @@ public partial class CosmosDbClientService
             using StreamReader streamReader = new(response.Content);
             CosmosDbResponse<UserEmailRedirectConfig>? configsResponse = await JsonSerializer.DeserializeAsync(
                 utf8Json: streamReader.BaseStream,
-                jsonTypeInfo: _jsonSourceGenerationContext.CosmosDbResponseUserEmailRedirectConfig
+                jsonTypeInfo: CosmosDbJsonContext.Default.CosmosDbResponseUserEmailRedirectConfig
             );
 
             for (var n = 0; n < configsResponse!.Documents!.Length; n++)

@@ -24,7 +24,7 @@ public partial class CosmosDbClientService
         // Deserialize the user search config item.
         UserSearchConfig configItem = JsonSerializer.Deserialize(
             utf8Json: configItemRsp.Content,
-            jsonTypeInfo: _jsonSourceGenerationContext.UserSearchConfig
+            jsonTypeInfo: CosmosDbJsonContext.Default.UserSearchConfig
         )!;
 
         return configItem;

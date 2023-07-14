@@ -1,10 +1,6 @@
-﻿using System.Text.Json;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
-using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 namespace SmallsOnline.PasswordExpirationNotifier.AdminConsole.Pages;
@@ -39,7 +35,6 @@ public partial class UserEmailRedirectConfigs : ComponentBase
     protected AuthenticationStateProvider _authenticationStateProvider { get; set; } = null!;
 
     private UserEmailRedirectConfig[]? _userEmailRedirects;
-    private JsonSourceGenerationContext _jsonSourceGenerationContext = new();
 
     private bool _loading = false;
 

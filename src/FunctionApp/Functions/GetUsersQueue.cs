@@ -19,7 +19,6 @@ public class GetUsersQueue
     private readonly IGraphClientService _graphClientService;
     private readonly ICosmosDbClientService _cosmosDbClientService;
     private readonly IQueueClientService _queueClientService;
-    private readonly JsonSourceGenerationContext _jsonSourceGenerationContext = new();
     private readonly TelemetryClient _telemetryClient;
 
     public GetUsersQueue(IConfigService configService, IGraphClientService graphClientService, ICosmosDbClientService cosmosDbClientService, IQueueClientService queueClientService, TelemetryClient telemetryClient)
@@ -44,7 +43,7 @@ public class GetUsersQueue
         // Deserialize the queue item.
         UserSearchQueueItem queueItem = JsonSerializer.Deserialize(
             json: queueItemContents,
-            jsonTypeInfo: _jsonSourceGenerationContext.UserSearchQueueItem
+            jsonTypeInfo: QueueJsonContext.Default.UserSearchQueueItem
         )!;
 
         // Get the user search config.
@@ -87,7 +86,7 @@ public class GetUsersQueue
         {
             await _queueClientService.EmailQueueClient.SendMessageAsync(JsonSerializer.Serialize(
                 value: userItem,
-                jsonTypeInfo: _jsonSourceGenerationContext.UserPasswordExpirationDetails)
+                jsonTypeInfo: QueueJsonContext.Default.UserPasswordExpirationDetails)
             );
         }
 

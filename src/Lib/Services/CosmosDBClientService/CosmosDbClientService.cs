@@ -11,7 +11,6 @@ public partial class CosmosDbClientService : ICosmosDbClientService, IDisposable
 {
     private readonly string _databaseName;
     private readonly CosmosClient _cosmosClient;
-    private readonly JsonSourceGenerationContext _jsonSourceGenerationContext = new();
     private bool _isDisposed = false;
 
     public CosmosDbClientService(string connectionString, string databaseName)

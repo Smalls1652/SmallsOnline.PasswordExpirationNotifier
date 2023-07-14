@@ -24,7 +24,7 @@ public partial class CosmosDbClientService
         // Deserialize the template config item.
         EmailTemplateConfig templateItem = JsonSerializer.Deserialize(
             utf8Json: templateItemRsp.Content,
-            jsonTypeInfo: _jsonSourceGenerationContext.EmailTemplateConfig
+            jsonTypeInfo: CosmosDbJsonContext.Default.EmailTemplateConfig
         )!;
 
         // If the template has included attachments, get them from Cosmos DB.
@@ -43,7 +43,7 @@ public partial class CosmosDbClientService
 
                 EmailTemplateAttachmentItem attachmentItem = JsonSerializer.Deserialize(
                     utf8Json: attachmentItemResponse.Content,
-                    jsonTypeInfo: _jsonSourceGenerationContext.EmailTemplateAttachmentItem
+                    jsonTypeInfo: CosmosDbJsonContext.Default.EmailTemplateAttachmentItem
                 )!;
 
                 includedAttachments[i] = attachmentItem;

@@ -46,7 +46,7 @@ public partial class CosmosDbClientService
             using StreamReader streamReader = new(response.Content);
             CosmosDbResponse<UserSearchConfig>? configsResponse = await JsonSerializer.DeserializeAsync(
                 utf8Json: streamReader.BaseStream,
-                jsonTypeInfo: _jsonSourceGenerationContext.CosmosDbResponseUserSearchConfig
+                jsonTypeInfo: CosmosDbJsonContext.Default.CosmosDbResponseUserSearchConfig
             );
 
             foreach (UserSearchConfig config in configsResponse!.Documents!)

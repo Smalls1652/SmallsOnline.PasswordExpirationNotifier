@@ -12,7 +12,6 @@ public partial class GraphClientService : IGraphClientService
     private readonly IEnumerable<string> _apiScopes;
     private readonly HttpClient _graphClient;
     private readonly IConfidentialClientApplication _confidentialClientApplication;
-    private readonly JsonSourceGenerationContext _jsonSourceGenerationContext = new();
     private readonly string[] _graphUserProps = new[]
     {
         "id",

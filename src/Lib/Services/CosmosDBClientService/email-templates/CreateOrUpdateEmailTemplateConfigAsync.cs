@@ -18,7 +18,7 @@ public partial class CosmosDbClientService
         await JsonSerializer.SerializeAsync(
             utf8Json: streamPayload,
             value: emailTemplateConfig,
-            jsonTypeInfo: _jsonSourceGenerationContext.EmailTemplateConfig
+            jsonTypeInfo: CosmosDbJsonContext.Default.EmailTemplateConfig
         );
 
         try
