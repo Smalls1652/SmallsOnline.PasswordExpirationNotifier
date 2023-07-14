@@ -4,10 +4,11 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
 
   <Import Project="../../SmallsOnline.PasswordExpirationNotifier.sln.props" />
-  
+
   <PropertyGroup>
     <AssemblyName>SmallsOnline.PasswordExpirationNotifier.Lib</AssemblyName>
     <PackageId>SmallsOnline.PasswordExpirationNotifier.Lib</PackageId>
