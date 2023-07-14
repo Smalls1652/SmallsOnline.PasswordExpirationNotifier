@@ -29,7 +29,7 @@ public partial class CosmosDbClientService
         EmailTemplateConfig[] configs = new EmailTemplateConfig[totalConfigCount];
 
         // Define the query to get the IDs of all configs.
-        QueryDefinition configsQuery = new("SELECT * FROM c");
+        QueryDefinition configsQuery = new("SELECT c.id, c.partitionKey FROM c");
 
         using FeedIterator feedIterator = container.GetItemQueryStreamIterator(
             queryDefinition: configsQuery,
@@ -51,7 +51,7 @@ public partial class CosmosDbClientService
 
             foreach (EmailTemplateConfig config in configsResponse!.Documents!)
             {
-                configs[i] = config;
+                configs[i] = await GetEmailTemplateConfigAsync(config.Id);
                 i++;
             }
         }
