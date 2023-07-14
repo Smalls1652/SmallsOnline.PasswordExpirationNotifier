@@ -75,6 +75,28 @@
             }
         },
         {
+            "label": "Project: Clean",
+            "detail": "Select a project and clean previous builds.",
+            "icon": {
+                "id": "trash"
+            },
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "clean",
+                "${workspaceFolder}/${input:dotnetProject}"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
             "label": "Watch: AdminConsole",
             "detail": "Run the AdminConsole in a watch configuration.",
             "icon": {
@@ -97,6 +119,72 @@
                 "reveal": "always",
                 "focus": false,
                 "panel": "dedicated",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "Start FunctionApp",
+            "detail": "Start the Azure Function App locally.",
+            "icon": {
+                "id": "zap",
+                "color": "terminal.ansiYellow"
+            },
+            "type": "process",
+            "command": "func",
+            "args": [
+                "host",
+                "start",
+                "--language-worker",
+                "dotnet-isolated"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/src/FunctionApp/bin/Debug/net7.0"
+            },
+            "windows": {
+                "command": "func",
+                "args": [
+                    "host",
+                    "start",
+                    "--language-worker",
+                    "dotnet-isolated"
+                ],
+                "problemMatcher": "$func-dotnet-watch",
+                "options": {
+                    "shell": {
+                        "executable": "pwsh",
+                        "args": [
+                            "-Login",
+                            "-NoProfile",
+                            "-NoLogo"
+                        ]
+                    }
+                }
+            },
+            "isBackground": true,
+            "problemMatcher": "$func-dotnet-watch",
+            "dependsOn": [
+                "Build: FunctionApp"
+            ]
+        },
+        {
+            "label": "Build: FunctionApp",
+            "hide": true,
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/FunctionApp/FunctionApp.csproj",
+                "--configuration",
+                "Debug",
+                "/property:GenerateFullPaths=true"
+            ],
+            "problemMatcher": "$msCompile",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
                 "showReuseMessage": true,
                 "clear": true
             }
