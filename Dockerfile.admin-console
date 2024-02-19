@@ -1,11 +1,19 @@
-FROM mcr.microsoft.com/dotnet/sdk:7.0 as build-env
+FROM mcr.microsoft.com/dotnet/sdk:8.0 as build-env
 
 ARG GITHUB_USER
 ARG GITHUB_TOKEN
 
-RUN curl -fsSL https://deb.nodesource.com/setup_19.x | bash -; \
+ENV NODE_MAJOR=20
+
+RUN apt-get update; \
+    apt-get install -y ca-certificates curl gnupg; \
+    mkdir -p /etc/apt/keyrings; \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg; \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list; \
     apt-get update; \
-    apt-get install -y nodejs python3
+    apt-get install -y nodejs python3 libc++1 libatomic1; \
+    curl -qL https://www.npmjs.com/install.sh | sh ;\
+    apt-get clean
 
 RUN npm install -g npm
 RUN dotnet tool install --global PowerShell
@@ -24,7 +32,7 @@ RUN dotnet msbuild ./src/AdminConsole -t:"InitProject_Combined"
 RUN dotnet restore ./src/AdminConsole
 RUN dotnet publish ./src/AdminConsole --configuration Release --output out
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 
 COPY --from=build-env /app/out .

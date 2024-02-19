@@ -8,17 +8,15 @@ using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
 IHostBuilder hostBuilder = new HostBuilder()
-    .ConfigureFunctionsWorkerDefaults(builder =>
-    {
-        if (AppSettingsHelper.GetSettingValue("APPLICATIONINSIGHTS_CONNECTION_STRING") is not null && AppSettingsHelper.GetSettingValue("APPINSIGHTS_INSTRUMENTATIONKEY") is not null)
-        {
-            builder.AddApplicationInsights();
-            builder.AddApplicationInsightsLogger();
-        }
-    })
+    .ConfigureFunctionsWorkerDefaults()
     .ConfigureServices(
         services =>
         {
+            if (AppSettingsHelper.GetSettingValue("APPLICATIONINSIGHTS_CONNECTION_STRING") is not null && AppSettingsHelper.GetSettingValue("APPINSIGHTS_INSTRUMENTATIONKEY") is not null)
+            {
+                services.ConfigureFunctionsApplicationInsights();
+            }
+
             services.AddSingleton<IGraphClientService, GraphClientService>(
                 provider => new GraphClientService(
                     config: new()
