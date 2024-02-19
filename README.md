@@ -21,7 +21,7 @@ It's heavily utilizing message queues to batch out user search jobs and sending 
 
 ## 🧑‍💻 Building/Testing
 
-* [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+* [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 * [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local)
 
 ## 🤝 License
