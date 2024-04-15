@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Queues" Version="12.17.1" />
-    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.38.1">
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.39.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Identity.Client" Version="4.60.0" />
