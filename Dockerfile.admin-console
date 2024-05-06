@@ -1,4 +1,9 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0 as build-env
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+
+ARG TARGETOS
+ARG TARGETARCH
+
+ENV CONTAINER_IMAGE_BUILD=true
 
 ARG GITHUB_USER
 ARG GITHUB_TOKEN
@@ -21,21 +26,29 @@ RUN dotnet tool install --global PowerShell
 WORKDIR /app
 
 COPY ./global.json ./
-COPY ./nuget.config ./
+COPY ./SmallsOnline.PasswordExpirationNotifier.sln ./
 COPY ./SmallsOnline.PasswordExpirationNotifier.sln.props ./
-COPY ./src/Lib/ ./src/Lib/
-COPY ./src/AdminConsole/ ./src/AdminConsole/
+COPY ./Directory.Build.props ./
+COPY ./nuget.config ./
+COPY ./src ./src
 
-RUN dotnet nuget add source https://nuget.pkg.github.com/Smalls1652/index.json --name github --username $GITHUB_USER --password $GITHUB_TOKEN --store-password-in-clear-text --configfile ./nuget.config
+#RUN dotnet nuget add source https://nuget.pkg.github.com/Smalls1652/index.json --name github --username $GITHUB_USER --password $GITHUB_TOKEN --store-password-in-clear-text --configfile ./nuget.config
 
 RUN dotnet msbuild ./src/AdminConsole -t:"InitProject_Combined"
 RUN dotnet restore ./src/AdminConsole
-RUN dotnet publish ./src/AdminConsole --configuration Release --output out
+RUN dotnet publish ./src/AdminConsole --configuration "Release" --os "${TARGETOS}" --arch "${TARGETARCH}"
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+RUN rm -rf /app/artifacts/publish/AdminConsole/release/*.pdb; \
+    rm -rf /app/artifacts/publish/AdminConsole/release/*.dbg
+
+FROM --platform=$TARGETPLATFORM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 
-COPY --from=build-env /app/out .
+ARG TARGETOS
+ARG TARGETARCH
+
+COPY --from=build-env /app/artifacts/publish/AdminConsole/release /app
+
 ENTRYPOINT [ "dotnet", "SmallsOnline.PasswordExpirationNotifier.AdminConsole.dll" ]
 EXPOSE 80
 EXPOSE 443
