@@ -1,9 +1,13 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow
 name: Build project
 on:
-  - push
-  - pull_request
-  - workflow_dispatch
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "README.md"
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   packages: read
