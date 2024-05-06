@@ -1,0 +1,16 @@
+{
+  "labels": {
+    "bug": [
+      "bug",
+      "bug fix",
+      "bugfix"
+    ],
+    "maintenance": [
+      "maintenance"
+    ]
+  },
+  "separateProjectLabel": {
+    "enable": false,
+    "projectLabels": []
+  }
+}
