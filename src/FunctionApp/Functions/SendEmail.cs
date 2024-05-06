@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.ApplicationInsights;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Extensions.Logging;
 using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
@@ -101,7 +102,15 @@ public class SendEmail
 
         if (!userSearchConfigItem.DoNotSendEmails)
         {
-            await _graphClientService.SendEmailAsync(emailMessage, emailTemplateConfigItem.TemplateSendAsUser!);
+            try
+            {
+                await _graphClientService.SendEmailAsync(emailMessage, emailTemplateConfigItem.TemplateSendAsUser!);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error sending email for '{userPrincipalName}'.", queueItem.User.UserPrincipalName);
+                throw;
+            }
         }
         else
         {
