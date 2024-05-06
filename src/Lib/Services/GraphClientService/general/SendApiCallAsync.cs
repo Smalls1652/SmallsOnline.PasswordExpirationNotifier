@@ -54,6 +54,8 @@ public partial class GraphClientService
                     break;
                 
                 default:
+                    response.EnsureSuccessStatusCode();
+                    
                     content = await response.Content.ReadAsStringAsync();
                     isFinished = true;
                     break;
