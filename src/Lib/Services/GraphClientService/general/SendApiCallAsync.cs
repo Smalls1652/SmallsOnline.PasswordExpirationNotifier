@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
+using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
 
 namespace SmallsOnline.PasswordExpirationNotifier.Lib.Services;
 
@@ -54,8 +56,35 @@ public partial class GraphClientService
                     break;
                 
                 default:
-                    response.EnsureSuccessStatusCode();
-                    
+                    try
+                    {
+                        response.EnsureSuccessStatusCode();
+                    }
+                    catch (Exception ex)
+                    {
+                        GraphErrorResponse? errorResponse = JsonSerializer.Deserialize(
+                            json: await response.Content.ReadAsStringAsync(),
+                            jsonTypeInfo: GraphJsonContext.Default.GraphErrorResponse
+                        );
+
+                        if (errorResponse is not null && errorResponse.Error is not null && errorResponse.Error.Message is not null)
+                        {
+                            throw new GraphApiException(
+                                message: errorResponse.Error.Message,
+                                errorResponse: errorResponse,
+                                innerException: ex
+                            );
+                        }
+                        else
+                        {
+                            throw new GraphApiException(
+                                message: "An unknown error occurred while calling the Graph API.",
+                                innerException: ex
+                            );
+                        }
+                    }
+
+
                     content = await response.Content.ReadAsStringAsync();
                     isFinished = true;
                     break;

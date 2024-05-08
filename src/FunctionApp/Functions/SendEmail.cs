@@ -3,6 +3,7 @@ using Microsoft.ApplicationInsights;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using SmallsOnline.PasswordExpirationNotifier.FunctionApp.Services;
+using SmallsOnline.PasswordExpirationNotifier.Lib;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Config;
 using SmallsOnline.PasswordExpirationNotifier.Lib.Models.Graph;
@@ -105,6 +106,10 @@ public class SendEmail
             try
             {
                 await _graphClientService.SendEmailAsync(emailMessage, emailTemplateConfigItem.TemplateSendAsUser!);
+            }
+            catch (GraphApiException ex)
+            {
+                logger.LogError(ex, "The Graph API returned an error while sending an email for '{userPrincipalName}': {message}", queueItem.User.UserPrincipalName, ex.ErrorResponse?.Error?.Message ?? "Unknown error");
             }
             catch (Exception ex)
             {
