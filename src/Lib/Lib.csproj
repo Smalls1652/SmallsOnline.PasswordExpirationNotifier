@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Storage.Queues" Version="12.18.0" />
+    <PackageReference Include="Azure.Storage.Queues" Version="12.19.0" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.41.0">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
